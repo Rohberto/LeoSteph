@@ -1,0 +1,111 @@
+.product_display_content{
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+.product_display_image, .product_display_info{
+    width: 50%;
+}
+.product_display_image{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.product_display_img{
+    width: 80%;
+    height: 80%;
+}
+.product_display_img img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.small_images{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+}
+.small_images img{
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+}
+.image-active{
+    border: 1px solid green;
+}
+.order_and_quantity{
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+.quantity_container{
+    width: 50%;
+}
+.summary_card{
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100vw;
+    background-color: rgb(232, 228, 224, 0.7);
+    height: 100px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 40px;
+    z-index: 2000;
+}
+.small_image{
+    width: 60px;
+    height: 60px;
+}
+.small_image img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.material_details{
+    border-right: 1px solid rgba(0, 0, 0, 0.7);
+    padding: 0 10px;
+}
+.material_details:last-child{
+    border: none;
+}
+.specifications_shipping{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 30px;
+}
+.specifications{
+    width: 80%;
+}
+@media all and (max-width: 600px){
+    .product_display_content{
+      flex-direction: column;
+      align-items: center;
+    }
+    .product_display_image, .product_display_info{
+        width: 100%;
+    }
+    .product_display_img{
+        width: 100%;
+        height: 100%;
+    }
+    .small_image{
+        display: none;
+    }
+    .summary_card{
+        padding: 40px 20px;
+    }
+}
+@media all and (max-width: 600px){
+    .specifications_shipping{
+       flex-direction: column;
+       margin: 20px 0;
+       align-items: flex-start;
+    }
+}

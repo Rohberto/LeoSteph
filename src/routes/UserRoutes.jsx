@@ -3,7 +3,7 @@ import { Outlet, Route, Routes } from "react-router-dom";
 import CostCalculator from "../pages/CostCalculator";
 import ProductPage from "../pages/Product";
 import CheckoutPage from "../pages/Checkout";
-import ProductDisplay from "../pages/Product/ProductDisplay";
+import ProductDisplay from "../pages/Product/ProductRefinedDisplay";
 import CustomPrintQuote from "../components/Order/Quote";
 import MyAccount from "../pages/UserProfile";
 import OrderDetails from "../components/Order/OrderDetails";
