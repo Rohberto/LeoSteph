@@ -1,59 +1,5 @@
-import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
-import { verifyPayment } from "../../services/payment";
 
 function OrderSuccess() {
-  const location = useLocation();
-  const { orderSummary } = location.state;
-  const [verificationStatus, setVerificationStatus] = useState(null); // null, 'success', or 'failure'
-
-  useEffect(() => {
-    const queryParams = new URLSearchParams(location.search);
-    const reference = queryParams.get("reference");
-
-    if (reference && orderSummary) {
-      console.log(orderSummary);
-      verifyPayment({ reference })
-        .then((response) => {
-          console.log("Payment verification successful:", response);
-          if (response) {
-            if (
-              response.data.status === "success" &&
-              response.data.amount / 100 === orderSummary.total
-            )
-              setVerificationStatus("success");
-            else setVerificationStatus("failure");
-          }
-        })
-        .catch((error) => {
-          console.error("Payment verification failed:", error);
-          setVerificationStatus("failure");
-        });
-    } else {
-      console.error("No transaction reference provided for verification.");
-      setVerificationStatus("failure");
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [location]);
-
-  if (verificationStatus === null) {
-    return (
-      <div className="flex items-center justify-center h-full bg-gray-100">
-        <p className="text-gray-600">Verifying payment...</p>
-      </div>
-    );
-  }
-
-  if (verificationStatus === "failure") {
-    return (
-      <div className="flex items-center justify-center h-screen bg-gray-100">
-        <p className="text-red-500">
-          Payment verification failed. Please try again.
-        </p>
-      </div>
-    );
-  }
-
   return (
     <div className="flex items-center justify-center h-screen bg-gray-100">
       <div className="text-center">

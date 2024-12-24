@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
-const SendRequest = ({ product }) => {
+const SendRequest = ({ product, orderSummary}) => {
+
   return (
     <div className="container mx-auto p-4">
       <h2 className="text-2xl font-bold mb-4">Send a Request</h2>

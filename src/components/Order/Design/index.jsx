@@ -10,7 +10,7 @@ import wallet from "./images/wallet.png";
 import paint from "./images/paint.png";
 import upload from "./images/upload.png";
 
-const DesignOptions = ({ product, setProductDesign }) => {
+const DesignOptions = ({ product, setProductDesign, orderSummary }) => {
   const navigate = useNavigate();
   const [showUploadModal, setShowUploadModal] = useState(false);
 
@@ -79,7 +79,7 @@ const DesignOptions = ({ product, setProductDesign }) => {
           title="Custom Design"
           description="Let our designers create a unique design for you."
           buttonText="Request Design"
-          onClick={() => navigate("/design-request", { state: { product } })}
+          onClick={() => navigate("/design-request", { state: { product, orderSummary } })}
         />
       </div>
 
@@ -88,6 +88,7 @@ const DesignOptions = ({ product, setProductDesign }) => {
         <UploadModal
           onClose={() => setShowUploadModal(false)}
           setProductDesign={setProductDesign}
+          orderSummary={orderSummary}
         />
       )}
 

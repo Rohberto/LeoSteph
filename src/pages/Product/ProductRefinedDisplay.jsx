@@ -23,7 +23,10 @@ const ProductDisplay = () => {
     orderLimit = {},
   } = product;
 
-console.log(addOns);
+  const goToCustom = (e) => {
+    e.stopPropagation();
+    navigate("/custom-request", {state: {product}});
+    }
 
   const minQuantity = orderLimit.min || 1;
   const [quantity, setQuantity] = useState(1);
@@ -125,15 +128,26 @@ console.log(addOns);
     }
 
     const data = {
-      quantity,
-      price: cartPrice,
-      name: product.name,
-      information: product.description,
-      specifications: transformSpecificationObject(selectedAddOns),
-    };
-    navigate("/design", { state: { data, product } });
+        quantity,
+        price: cartPrice,
+        name: product.name,
+        information: product.description,
+        specifications: transformSpecificationObject(selectedAddOns),
+      };
+
+      let orderSummary = {
+        items: 1,
+        subtotal: cartPrice,
+        tax: 0,
+        shipping: shippingOption === "express" ? 2500 : 0,
+        total:  cartPrice + (shippingOption === "express" ? 2500 : 0),
+      }
+
+    navigate("/custom-request", { state: { data, orderSummary, product } });
   };
 
+
+  
   return (
     <div className="w-full mx-auto border-b border-gray-300 py-9 px-2 sm:px-6 lg:px-8 font-Roobert changeFontSpacing">
       <Breadcrumbs />
@@ -194,19 +208,20 @@ console.log(addOns);
               </div>
                       
               <button
-          onClick={() => navigate("/checkout", {
-            state: {
-              orderSummary: {
-                items: 1,
-                subtotal:   
-                  cartPrice
-                ,
-                tax: 0,
-                shipping: shippingOption === "express" ? 2500 : 0,
-                total:  cartPrice + (shippingOption === "express" ? 2500 : 0),
-              },
-            },
-          })}
+         // onClick={() => navigate("/checkout", {
+           // state: {
+            //  orderSummary: {
+            //    items: 1,
+               // subtotal:   
+              //    cartPrice
+              //  ,
+               // tax: 0,
+               // shipping: shippingOption === "express" ? 2500 : 0,
+             //   total:  cartPrice + (shippingOption === "express" ? 2500 : 0),
+            //  },
+           // },
+        //  })}
+        onClick={(e) => handleAddToCart()}
           className="w-1/2 bg-green-600 hover:bg-green-700 text-white rounded-md flex items-center justify-center gap-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed font-semibold"
           disabled={!quantity || !areAllAddOnsSelected()}
         >
@@ -379,19 +394,7 @@ console.log(addOns);
               </h1>
            
               <button
-          onClick={() => navigate("/checkout", {
-            state: {
-              orderSummary: {
-                items: 1,
-                subtotal:   
-                  cartPrice
-                ,
-                tax: 0,
-                shipping: shippingOption === "express" ? 2500 : 0,
-                total:  cartPrice + (shippingOption === "express" ? 2500 : 0),
-              },
-            },
-          })}
+          onClick={() => handleAddToCart()}
           className="bg-green-600 hover:bg-green-700 text-white p-2 mds:p-3 rounded-md flex items-center justify-center gap-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed font-semibold"
           disabled={!quantity || !areAllAddOnsSelected()}
         >

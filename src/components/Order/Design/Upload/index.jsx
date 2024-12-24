@@ -8,7 +8,7 @@ import uploadImgToCloud from "../../../../utils/uploadImgToCloud";
 import notify from "../../../../utils/notify";
 import { useNavigate } from "react-router-dom";
 
-const UploadModal = ({ onClose, setProductDesign }) => {
+const UploadModal = ({ onClose, setProductDesign, orderSummary }) => {
   const navigate = useNavigate();
   const [isDragging, setIsDragging] = useState(false);
   const [files, setFiles] = useState([]);
@@ -174,7 +174,11 @@ const UploadModal = ({ onClose, setProductDesign }) => {
               ? "bg-oliveGreen cursor-not-allowed"
               : "bg-sageGreen hover:bg-forestGreen"
           } text-white`}
-          onClick={uploadComplete ? () => navigate("/cart") : handleUpload}
+          onClick={uploadComplete ? () => navigate("/checkout", {
+            state: {
+             orderSummary
+            },
+          }) : handleUpload}
           disabled={uploading || files.length === 0}
         >
           {uploadComplete

@@ -4,10 +4,12 @@ import Breadcrumbs from "../../../shared/breadCrumbs";
 import { useLocation } from "react-router-dom";
 import { addToCart } from "../../../services/cart";
 
+
+
 const DesignPage = () => {
   const [productDesign, setProductDesign] = useState(null);
   const location = useLocation();
-  const { data, product } = location.state;
+  const { data, product, orderSummary } = location.state;
 
   useEffect(() => {
     if (productDesign) {
@@ -38,7 +40,7 @@ const DesignPage = () => {
       <Breadcrumbs customPath={["cart", "design options"]} />
 
       <div className="mt-3 p-4 rounded-lg">
-        <DesignOptions setProductDesign={setProductDesign} product={product} />
+        <DesignOptions setProductDesign={setProductDesign} product={product} orderSummary={orderSummary}/>
       </div>
     </div>
   );

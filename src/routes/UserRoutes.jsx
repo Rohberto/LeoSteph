@@ -23,6 +23,8 @@ import UserProfile from "../components/Landing/Profile";
 import OrdersPage from "../pages/Order/Order";
 import FAQ from "../pages/FAQ/FAQ";
 import ReturnPolicy from "../pages/Returns/returns";
+import DesignRequest from "../pages/Product/Request/customRequest";
+import DesignPage from "../pages/Product/Request/design";
 
 const Layout = () => {
   return (
@@ -46,6 +48,7 @@ const UserRoutes = () => {
         <Route path="contact" element={<ContactUs />} />
         <Route path="shop/:name" element={<ProductDisplay />} />
         <Route path="cart" element={<Cart />} />
+        <Route path="/custom-request" element={<DesignPage />} />
         <Route path="cost-calculator" element={<CostCalculator />} />
         <Route path="quote" element={<CustomPrintQuote />} />
         <Route path="/MyAccount" element={<MyAccount />}></Route>
