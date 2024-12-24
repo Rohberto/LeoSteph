@@ -33,7 +33,6 @@ const Layout = () => {
       <ScrollToTop />
       <Outlet />
       <Footer />
-      <BottomNavigation />
     </div>
   );
 };
