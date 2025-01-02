@@ -1,12 +1,13 @@
+import { logo } from "../../../../constant/images/index";
 const AdminFooter = () => {
   return (
-    <footer className="w-full bg-gray-800 text-white py-4">
-      <div className="container mx-auto px-4">
+    <footer className="w-full bg-menu text-white py-4 font-Roobert changeFontSpacing footer-height">
+      <div className="footer-container mx-auto px-4">
         {/* Top Section */}
         <div className="flex flex-wrap justify-between items-center mb-4">
           {/* Branding or Logo */}
           <div className="flex items-center space-x-4">
-            <img src="/logo.svg" alt="Admin Logo" className="w-12 h-12" />
+            <img src={logo} alt="Admin Logo" className="w-12 h-12" />
             <span className="text-lg font-semibold">Admin Dashboard</span>
           </div>
 

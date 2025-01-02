@@ -11,6 +11,7 @@ import Customers from "./Customers";
 import Users from "./Users";
 import OneProduct from "./Products/OneProduct";
 import EditProduct from "./Products/EditProduct";
+import AdminFooter from "./Layout/Footer";
 
 const AdminHome = ({ user: initialUser }) => {
   const [searchParams] = useSearchParams();
@@ -39,25 +40,35 @@ const AdminHome = ({ user: initialUser }) => {
     "edit-product": <EditProduct />,
   };
 
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  const toggleSidebar = () => {
+      setIsSidebarOpen(!isSidebarOpen);
+  };
+
   return (
-    <div className="w-full bg-gray-200 h-screen">
-      <div className="grid grid-cols-12 gap-2 h-full">
+      <div className="flex main-dashboard-container">
+
         {/* Sidebar */}
-        <aside className="col-span-2 max-h-screen overflow-y-auto bg-white shadow-md">
-          <Menu />
+        <aside className={`w-30 dashboard_aside_menu ${isSidebarOpen ? 'open' : 'closed'}`}>
+          <Menu toggleSidebar={toggleSidebar} isSidebarOpen={isSidebarOpen}/>
+          <button className="toggle-btn" onClick={toggleSidebar}>
+                    {isSidebarOpen ? '❌' : '☰'}
+                </button>
         </aside>
 
         {/* Main Content */}
-        <main className="col-span-10 pr-2 pt-1">
+        <main className="main_dashboard_content">
           <AdminHeader data={user} />
 
-          <div className="w-full h-full overflow-y-auto bg-gray-100 p-4 rounded-lg shadow-inner">
-            {viewsMap[view] || viewsMap["overview"]}
+          <div className="w-full bg-transparent p-4 rounded-lg shadow-inner">
+            {viewsMap[view]}
             {actionsMap[action]}
           </div>
+
+          <AdminFooter/>
         </main>
       </div>
-    </div>
   );
 };
 

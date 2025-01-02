@@ -84,13 +84,13 @@ const Dashboard = () => {
   ];
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 font-Roobert changeFontSpacing">
       {/* Main Stats */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {stats.map((stat) => (
           <div
             key={stat.title}
-            className="bg-white rounded-lg shadow-sm p-6 flex items-center space-x-4"
+            className="bg-transdashboard rounded-lg shadow-sm p-6 flex items-center space-x-4"
           >
             <div className={`${stat.color} p-3 rounded-lg`}>
               <stat.icon className="h-6 w-6 text-white" />
@@ -110,13 +110,13 @@ const Dashboard = () => {
       </div>
 
       {/* Quick Stats */}
-      <div className="bg-white rounded-lg shadow-sm p-6">
+      <div className="bg-transparent rounded-lg shadow-sm p-6">
         <h2 className="text-lg font-semibold mb-4">Quick Stats</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {quickStats.map((stat) => (
             <div
               key={stat.label}
-              className="flex items-center space-x-3 p-4 bg-gray-50 rounded-lg"
+              className="flex items-center space-x-3 p-4 bg-transdashboard rounded-lg"
             >
               <stat.icon className={`h-8 w-8 ${stat.color}`} />
               <div>
@@ -129,13 +129,13 @@ const Dashboard = () => {
       </div>
 
       {/* Recent Activity */}
-      <div className="bg-white rounded-lg shadow-sm p-6">
+      <div className="bg-transdashboard rounded-lg shadow-sm p-6">
         <h2 className="text-lg font-semibold mb-4">Recent Activity</h2>
         <div className="space-y-4">
           {recentActivity.map((activity, index) => (
             <div
               key={index}
-              className="flex items-start space-x-3 p-3 hover:bg-gray-50 rounded-lg transition-colors"
+              className="flex items-start space-x-3 p-3 hover:bg-menu rounded-lg transition-colors"
             >
               <div className="flex-shrink-0">
                 <Activity className="h-5 w-5 text-gray-400" />

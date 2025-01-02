@@ -40,7 +40,10 @@ export default {
         sageGreen: "#90A955",
         lightYellow: "#ECF39E",
         midnightBlue: "#0c2f4a",
-        limeGreen: "#6ebe4a"
+        limeGreen: "#6ebe4a",
+        transdashboard: "#AEB1B3",
+        dashboard: "#B6B8BA",
+        menu: "#0B121B"
       },
       boxShadow: {
         "3xl": "0 10px 40px rgba(0, 0, 0, 0.1)",

@@ -27,14 +27,14 @@ const SearchBar = () => {
     <div className="mx-2">
       <form
         onSubmit={handleSubmit}
-        className="w-full p-2 h-10 flex flex-row bg-gray-50 rounded-full items-center gap-y-2"
-      >
+        className="w-full p-2 h-10 flex flex-row  rounded-full items-center gap-y-2"
+        style={{backgroundColor: "#AEB1B3"}}>
         <div className="">
           <Icon icon="icons8:search" width={24} />
         </div>
         <div className="w-full">
           <input
-            className={`appearance-none block focus:bg-gray-50 h-7 w-full bg-gray-50 text-gray-700 rounded-lg py-3 px-4 focus:outline-none focus:appearance-none`}
+            className={`appearance-none block focus:bg-transparent h-7 w-full bg-transparent text-black rounded-lg py-3 px-4 focus:outline-none focus:appearance-none`}
             id="search"
             {...field}
           />

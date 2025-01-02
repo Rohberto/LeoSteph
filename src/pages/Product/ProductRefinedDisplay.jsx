@@ -222,7 +222,7 @@ const ProductDisplay = () => {
            // },
         //  })}
         onClick={(e) => handleAddToCart()}
-          className="w-1/2 bg-green-600 hover:bg-green-700 text-white rounded-md flex items-center justify-center gap-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed font-semibold"
+          className="w-1/2 py-0 h-12 bg-green-600 hover:bg-green-700 text-white rounded-md flex items-center justify-center gap-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed font-semibold"
           disabled={!quantity || !areAllAddOnsSelected()}
         >
           Order Now

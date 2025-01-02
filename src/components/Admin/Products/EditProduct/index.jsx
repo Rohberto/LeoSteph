@@ -1,7 +1,4 @@
 import AddProduct from "../../../../pages/Product/AddProduct";
-import AdminFooter from "../../Layout/Footer";
-import View from "../../Misc/View";
-import ViewTab from "../../Misc/ViewTab";
 import { useSearchParams } from "react-router-dom";
 import { useEffect } from "react";
 import notify from "../../../../utils/notify";
@@ -55,12 +52,11 @@ const EditProduct = () => {
   };
 
   return (
-    <View>
-      <ViewTab styles="bg-white mt-1 rounded-md p-4">
-        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+<>
+        <div className="font-Roobert changeFontSpacing flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <GoBack
             title="Go Back"
-            style="bg-gray-100 active:bg-gray-200 px-4 py-2 rounded-md"
+            style="bg-transdashboard active:bg-gray-200 px-4 py-2 rounded-md"
           />
           <div className="text-2xl font-medium text-center md:text-left">
             Edit Product
@@ -69,9 +65,7 @@ const EditProduct = () => {
         <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-2">
           <AddProduct data={data?.product} getEditedData={getEditedData} />
         </div>
-        <AdminFooter className="mt-8" />
-      </ViewTab>
-    </View>
+  </>
   );
 };
 

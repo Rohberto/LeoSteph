@@ -35,11 +35,15 @@ const Orders = () => {
   };
 
   return (
-    <div className="p-4 bg-gray-100 min-h-screen">
-      <h1 className="text-2xl font-bold mb-4">Orders</h1>
-
-      {/* Orders List */}
-      <div className="bg-white shadow rounded mb-6">
+    
+    <div className="p-4 bg-transparent font-Roobert changeFontSpacing min-h-screen">
+    
+    <h1 className="text-2xl font-bold mb-4">Orders</h1>
+  
+    {/* Orders List */}
+    <div className="bg-transdashboard shadow rounded mb-6">
+      {/* Table for Desktop */}
+      <div className="hidden mds:block">
         <table className="table-auto w-full">
           <thead>
             <tr className="bg-gray-200">
@@ -82,44 +86,89 @@ const Orders = () => {
           </tbody>
         </table>
       </div>
-
-      {/* Order Details Modal */}
-      {selectedOrder && (
-        <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center">
-          <div className="bg-white p-6 rounded shadow-lg w-1/3">
-            <h2 className="text-xl font-bold mb-4">Order Details</h2>
+  
+      {/* List for Mobile */}
+      <div className="block mds:hidden">
+        {orders.map((order) => (
+          <div
+            key={order.id}
+            className="border rounded p-4 mb-4 bg-gray-100 shadow"
+          >
             <p className="mb-2">
-              <strong>Order ID:</strong> {selectedOrder.id}
+              <strong>Order ID:</strong> {order.id}
             </p>
             <p className="mb-2">
-              <strong>Customer:</strong> {selectedOrder.customer}
+              <strong>Customer:</strong> {order.customer}
             </p>
             <p className="mb-2">
-              <strong>Status:</strong> {selectedOrder.status}
+              <strong>Status:</strong> {order.status}
             </p>
-            <p className="mb-4">
-              <strong>Total:</strong> {selectedOrder.total}
+            <p className="mb-2">
+              <strong>Total:</strong> {order.total}
             </p>
-
-            <h3 className="text-lg font-semibold mb-2">Items</h3>
-            <ul className="list-disc pl-6 mb-4">
-              {selectedOrder.items.map((item, index) => (
-                <li key={index}>
-                  {item.name} - {item.quantity} x {item.price}
-                </li>
-              ))}
-            </ul>
-
-            <button
-              className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
-              onClick={() => setSelectedOrder(null)}
-            >
-              Close
-            </button>
+            <div className="flex flex-col gap-2">
+              <button
+                className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
+                onClick={() => setSelectedOrder(order)}
+              >
+                View Details
+              </button>
+              <select
+                className="border rounded px-2 py-1"
+                value={order.status}
+                onChange={(e) =>
+                  updateOrderStatus(order.id, e.target.value)
+                }
+              >
+                <option value="Pending">Pending</option>
+                <option value="Processing">Processing</option>
+                <option value="Shipped">Shipped</option>
+                <option value="Delivered">Delivered</option>
+              </select>
+            </div>
           </div>
-        </div>
-      )}
+        ))}
+      </div>
     </div>
+  
+    {/* Order Details Modal */}
+    {selectedOrder && (
+      <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center">
+        <div className="bg-white p-6 rounded shadow-lg w-1/3">
+          <h2 className="text-xl font-bold mb-4">Order Details</h2>
+          <p className="mb-2">
+            <strong>Order ID:</strong> {selectedOrder.id}
+          </p>
+          <p className="mb-2">
+            <strong>Customer:</strong> {selectedOrder.customer}
+          </p>
+          <p className="mb-2">
+            <strong>Status:</strong> {selectedOrder.status}
+          </p>
+          <p className="mb-4">
+            <strong>Total:</strong> {selectedOrder.total}
+          </p>
+  
+          <h3 className="text-lg font-semibold mb-2">Items</h3>
+          <ul className="list-disc pl-6 mb-4">
+            {selectedOrder.items.map((item, index) => (
+              <li key={index}>
+                {item.name} - {item.quantity} x {item.price}
+              </li>
+            ))}
+          </ul>
+  
+          <button
+            className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+            onClick={() => setSelectedOrder(null)}
+          >
+            Close
+          </button>
+        </div>
+      </div>
+    )}
+  </div>
+  
   );
 };
 

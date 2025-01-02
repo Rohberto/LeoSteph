@@ -4,7 +4,6 @@ import { useSearchParams } from "react-router-dom";
 import { useCallback, useEffect, useState } from "react";
 import View from "../Misc/View";
 import ViewTab from "../Misc/ViewTab";
-import AdminFooter from "../Layout/Footer";
 import CategoryView from "./Category/list";
 import { tabs as myTabs } from "./data";
 import { Icon } from "@iconify/react/dist/iconify.js";
@@ -32,8 +31,8 @@ const Products = () => {
     return tabs.map((tab) => (
       <div
         key={tab.name}
-        className={`flex cursor-pointer items-center gap-x-3 px-4 py-2 rounded-md ${
-          tab.active ? "bg-gray-900 text-white" : "bg-gray-200 text-gray-500"
+        className={`flex cursor-pointer items-center gap-x-3 px-4 py-2 mb-2 rounded-md ${
+          tab.active ? "bg-menu text-white" : "bg-transdashboard text-black"
         }`}
         onClick={() => handleTabs(tab)}
       >
@@ -59,9 +58,9 @@ const Products = () => {
   return (
     <View>
       <ViewTab>
-        <div className="w-full bg-gray-100 mt-1 px-2 flex flex-col gap-y-2">
+        <div className="w-full bg-transparent mt-1 px-2 flex flex-col gap-y-2 font-Roobert changeFontSpacing">
           <div className="font-semibold text-3xl">Products</div>
-          <div className="flex flex-row items-center gap-x-4">
+          <div className="w-full flex flex-wrap flex-row items-center gap-x-4">
             {renderTabs()}
           </div>
 
@@ -73,7 +72,6 @@ const Products = () => {
             </div>
           )}
         </div>
-        <AdminFooter />
       </ViewTab>
     </View>
   );

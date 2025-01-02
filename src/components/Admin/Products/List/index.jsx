@@ -29,23 +29,23 @@ const List = () => {
 
   return (
     <div className="w-full min-h-screen overflow-y-auto">
-      <div className="min-w-[768px]">
+      <div className="w-full">
         {" "}
         {/* Minimum width to prevent squishing */}
-        <div className="grid grid-cols-12 gap-2 items-center bg-gray-200 p-2 text-sm sm:text-base">
-          <div className="font-semibold text-center col-span-1">ID</div>
-          <div className="font-semibold text-center col-span-1">Image</div>
-          <div className="font-semibold text-center col-span-3">Name</div>
-          <div className="font-semibold text-center col-span-2">Price</div>
-          <div className="font-semibold text-center col-span-1 hidden sm:block">
+        <div className=" flex items-center justify-between md:grid md:grid-cols-12 gap-2 items-center bg- p-2 text-sm sm:text-base">
+          <div className="font-semibold text-center  md:col-span-1">ID</div>
+          <div className="font-semibold text-center md:col-span-1">Image</div>
+          <div className="font-semibold text-center md:col-span-3">Name</div>
+          <div className="font-semibold text-center md:col-span-2">Price</div>
+          <div className="font-semibold text-center md:col-span-1 hidden sm:block">
             Popular
           </div>
-          <div className="font-semibold text-center col-span-3 hidden md:block">
+          <div className="font-semibold text-center md:col-span-3 hidden md:block">
             Date Created
           </div>
-          <div className="font-semibold text-center col-span-1">Actions</div>
+          <div className="font-semibold text-center md:col-span-1">Actions</div>
         </div>
-        <div className="mt-1 flex flex-col gap-1 bg-gray-200">
+        <div className="mt-1 flex flex-col gap-1 bg-transparent">
           {data?.products?.map((product, idx) => (
             <Row
               key={product.id}

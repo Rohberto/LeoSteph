@@ -16,10 +16,10 @@ const Extras = () => {
       {/* Add Product Button */}
       <div
         onClick={() => navigate(`/admin?view=products&tab=add`)}
-        className="flex items-center gap-2 px-4 py-2 border border-gray-900 cursor-pointer text-gray-900 hover:text-white hover:bg-gray-900 transition-colors duration-300 rounded-full"
+        className="flex items-center gap-2 px-2 mds:px-4 py-2 border border-transdashboard cursor-pointer text-gray-900 hover:text-white hover:bg-gray-900 transition-colors duration-300 rounded-full"
       >
-        <span className="text-lg font-semibold">+</span>
-        <button className="text-sm font-medium">Add Product</button>
+        <span className="text-xs mds:text-lg font-semibold">+</span>
+        <button className="text-xs sm:text-sm font-medium">Add Product</button>
       </div>
 
       {/* Dropdown Icon and Menu */}

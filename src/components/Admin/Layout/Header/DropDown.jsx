@@ -11,7 +11,7 @@ const Wrapper = ({ name, icon, fn }) => {
       <div className="">
         <Icon icon={icon} width={16} />
       </div>
-      <div className="">{name}</div>
+      <div className="text-black">{name}</div>
     </div>
   );
 };
@@ -28,7 +28,7 @@ const DropDown = () => {
   };
 
   return (
-    <div className="w-full flex flex-col gap-y-2 bg-gray-50 rounded-b-md py-1  ">
+    <div className="w-full flex flex-col gap-y-2 bg-transdashboard rounded-b-md py-1  font-Roobert changeFontSpacing">
       {renderDropDown()}
     </div>
   );

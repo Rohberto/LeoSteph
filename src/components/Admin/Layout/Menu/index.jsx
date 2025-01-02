@@ -5,7 +5,7 @@ import { tabs as myTabs } from "./data";
 import Tab from "./Tab";
 import { useSearchParams } from "react-router-dom";
 
-const Menu = () => {
+const Menu = ({toggleSidebar, isSidebarOpen}) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [tabs, setTabs] = useState(myTabs);
   const view = searchParams.get("view");
@@ -49,12 +49,11 @@ const Menu = () => {
   }, []);
 
   return (
-    <div className="flex flex-col min-h-screen w-full bg-gray-50 p-2 sm:p-4">
-      <div className="h-auto min-h-[60px] sm:h-[10%] mb-4 sm:mb-0">
+    <div className=" font-Roobert ChangeFontSpacing">
+      <div className="h-auto min-h-[60px] sm:h-[10%] mb-4 sm:mb-0 flex">
         <img src={logo} alt="logo" className="h-full" />
       </div>
       <div className="flex-grow flex flex-col justify-start sm:justify-center gap-y-3 py-4">
-        <div className="text-lg sm:text-xl font-medium px-2">MENU</div>
         <div className="space-y-2 sm:space-y-3">{renderTabs()}</div>
       </div>
     </div>
