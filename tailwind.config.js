@@ -43,7 +43,7 @@ export default {
         limeGreen: "#6ebe4a",
         transdashboard: "#AEB1B3",
         dashboard: "#B6B8BA",
-        menu: "#0B121B"
+        menu: "#0B11B"
       },
       boxShadow: {
         "3xl": "0 10px 40px rgba(0, 0, 0, 0.1)",

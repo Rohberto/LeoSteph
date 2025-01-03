@@ -174,7 +174,7 @@ const AddProduct = (props) => {
         description="Add new product to database using the form"
         type="page"
       />
-      <h1 className="text-3xl font-bold mb-6">
+      <h1 className="text-3xl font-bold mb-6 font-Roobert changeFontSpacing">
         {props?.data ? "Edit Product" : "Add New Product"}
       </h1>
       <form
