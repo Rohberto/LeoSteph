@@ -59,7 +59,7 @@ const ClientCarousel = () => {
       aria-label="Client partners"
       className="py-10 md:py-16 bg-white overflow-hidden font-Roobert changefontspacing"
     >
-      <div className="container mx-auto px-4">
+      <div className="mx-auto px-4">
         {/* Header Section */}
         <motion.div
           className="max-w-4xl mx-auto flex flex-col md:flex-row items-center md:items-start text-center md:text-left gap-6 md:gap-8"
