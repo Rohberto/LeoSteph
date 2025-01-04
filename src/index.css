@@ -245,7 +245,7 @@ color: #fff;
   .main-dashboard-container .closed{
     width: 20px;
   }
-  .main-dashboard-container .closed{
+  .main-dashboard-container .open{
     width: 200px;
   }
   .main_dashboard_content{
@@ -288,3 +288,4 @@ color: #fff;
     margin-left: 20px;
   }
 }
+

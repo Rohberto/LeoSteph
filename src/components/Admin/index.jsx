@@ -39,8 +39,11 @@ const AdminHome = ({ user: initialUser }) => {
     "view-product": <OneProduct />,
     "edit-product": <EditProduct />,
   };
-
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  var screen = window.innerWidth;
+  useEffect(() => {
+    setIsSidebarOpen(screen > 1000 ? true : false);
+  }, [screen]);
 
   const toggleSidebar = () => {
       setIsSidebarOpen(!isSidebarOpen);
@@ -50,7 +53,7 @@ const AdminHome = ({ user: initialUser }) => {
       <div className="flex main-dashboard-container">
 
         {/* Sidebar */}
-        <aside className={`w-30 dashboard_aside_menu ${isSidebarOpen ? 'open' : 'closed'}`}>
+        <aside className={` dashboard_aside_menu ${isSidebarOpen ? 'open' : 'closed'}`}>
           <Menu toggleSidebar={toggleSidebar} isSidebarOpen={isSidebarOpen}/>
           <button className="toggle-btn" onClick={toggleSidebar}>
                     {isSidebarOpen ? '❌' : '☰'}
