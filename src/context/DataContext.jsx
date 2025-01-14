@@ -6,7 +6,7 @@ export const DataContext = createContext();
 // Create the provider component
 export const DataProvider = ({ children }) => {
   const getCartdatas = JSON.parse(localStorage?.getItem("cartdata"));
-  const userdata = JSON.parse(localStorage?.getItem("user"));
+  const userdata =  localStorage?.getItem("user") ? JSON.parse(localStorage?.getItem("user")) : null;
   const [cartdata, setCartData] = useState(getCartdatas || []); // Shared state
   const [products, setProducts] = useState([]);
   const [user, setUser] = useState(userdata || null);

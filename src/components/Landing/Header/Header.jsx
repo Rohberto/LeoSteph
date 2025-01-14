@@ -81,7 +81,7 @@ const Header = () => {
               items={accountItems}
               isOpen={isHelpOpen}
               onClick={() => setIsHelpOpen(!isHelpOpen)}
-              title={user?.name.split(" ")[0]}
+              title={user?.firstName}
               transition="ease-in-out duration-300"
             />
             </div>

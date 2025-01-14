@@ -11,7 +11,7 @@ const ProductDisplay = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { product, specification } = location.state;
-
+console.log(product);
   const {
     images,
     name,
@@ -21,6 +21,7 @@ const ProductDisplay = () => {
     tags = [],
     addOns = [],
     orderLimit = {},
+    id
   } = product;
 
   const goToCustom = (e) => {
@@ -141,9 +142,10 @@ const ProductDisplay = () => {
         tax: 0,
         shipping: shippingOption === "express" ? 2500 : 0,
         total:  cartPrice + (shippingOption === "express" ? 2500 : 0),
+        cart_id: id
       }
 
-    navigate("/custom-request", { state: { data, orderSummary, product } });
+    navigate("/design", { state: { data, orderSummary, product } });
   };
 
 
@@ -240,18 +242,17 @@ const ProductDisplay = () => {
       </div>
 
 <div className="specifications_shipping">
-<div className="specifications">
 {addOns.length > 0 && (
-          <div className="">
+          <div className="specifications border-2 rounded-lg border-gray-200 p-4">
             <h3 className="text-xl font-semibold mb-6">Specifications</h3>
             <div className="specifications_materials">
               {addOns.map((addOn, index) => (
                 <div
                   key={index}
-                  className="bg-white rounded-lg shadow-md p-4 border border-gray-200"
+                  className=""
                 >
                   <h4 className="font-bodyFont text-lg mb-4">{addOn.name}</h4>
-                  <div className="flex flex-row flex-wrap gap-4">
+                  <div className="flex gap-4">
                     {addOn.values.map((value, valueIndex) => (
                       <div key={valueIndex}>
                         <input
@@ -305,13 +306,12 @@ const ProductDisplay = () => {
           </div>
         )}  
 
-</div>
 
-<div className="mt-6 bg-white rounded-lg shadow-md p-4 border border-gray-200">
+<div className={`mt-6 bg-white rounded-lg shadow-md p-4 border border-gray-200 ${addOns.length <= 0 ? "w-full" : "w-full md:w-1/4"}`}>
                 <h3 className="font-semibold mb-4">Shipping Options</h3>
-                <div className="space-y-3 flex gap-4">
+                <div className="">
                   <div
-                    className={`p-3 border-2 rounded-lg cursor-pointer transition-all ${
+                    className={`p-3 mb-4 border-2 rounded-lg cursor-pointer transition-all ${
                       shippingOption === "standard"
                         ? "border-green-500 bg-green-50"
                         : "border-gray-200 hover:border-gray-300"
@@ -331,7 +331,7 @@ const ProductDisplay = () => {
                   </div>
 
                   <div
-                    className={`p-3 border-2 rounded-lg cursor-pointer transition-all ${
+                    className={`p-3 border-2 mb-4 rounded-lg cursor-pointer transition-all ${
                       shippingOption === "express"
                         ? "border-green-500 bg-green-50"
                         : "border-gray-200 hover:border-gray-300"

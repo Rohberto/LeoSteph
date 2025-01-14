@@ -11,7 +11,7 @@ const SignIn = () => {
   const {setUser} = useContext(DataContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [name, setName] = useState("");
+  const [firstName, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -47,7 +47,7 @@ const SignIn = () => {
 
     try {
       if (isSignUp) {
-       const data = await registerUser(name, phone, email, password);
+       const data = await registerUser(firstName, phone, email, password);
        console.log(data);
        setSignUpSuccess(true);
         toast.success("Account created successfully!");
@@ -119,15 +119,15 @@ const SignIn = () => {
           <>
             <div className="mb-6">
               <label
-                htmlFor="name"
+                htmlFor="firstName"
                 className="block text-sm font-medium mb-2 text-white"
               >
                 Name
               </label>
               <input
                 type="text"
-                id="name"
-                value={name}
+                id="firstName"
+                value={firstName}
                 onChange={(e) => setName(e.target.value)}
                 className="w-full px-3 py-4 bg-transparent border border-white rounded-md text-emerald-100 placeholder-emerald-500 placeholder-opacity-70 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-opacity-50"
                 required

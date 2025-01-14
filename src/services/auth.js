@@ -9,13 +9,13 @@ const saveRefreshToken = (refreshToken) =>
 
 const isLoggedIn = () => !!getToken();
 
-const registerUser = async (name, phone, email, password) => {
+const registerUser = async (firstName, phone, email, password) => {
   const response = await fetch(`${API_BASE_URL}auth/register`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ name, phone, email, password }),
+    body: JSON.stringify({ firstName, phone, email, password }),
   });
 
   if (!response.ok) {

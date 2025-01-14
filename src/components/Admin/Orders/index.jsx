@@ -1,6 +1,22 @@
 import { useState } from "react";
 
 const Orders = () => {
+  const getAllOrders = async () => {
+    try{
+      const response = await fetch(`https://api.leosteph.com/api/orders`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem('authToken')}`,// Ensure token is correctly passed
+        },
+      });
+      const data = await response.json();
+      console.log(data);
+    } catch(err){
+console.log(err.message);
+    }
+  }
+  getAllOrders();
   const [orders, setOrders] = useState([
     {
       id: 1,

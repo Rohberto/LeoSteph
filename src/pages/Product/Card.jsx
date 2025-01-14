@@ -93,7 +93,7 @@ const ProductCard = ({ product, onAddToFavorites }) => {
             className="rounded-full border-2 border-green-800 p-2 mr-2 hover:bg-green-800 hover:text-yellow-200"
             role="button"
             aria-label="Add to cart"
-            onClick={(event) => addProductToCart(event, product)}
+            onClick={handleViewProductDetails}
           >
             <ShoppingCart
               className="h-5 w-5"

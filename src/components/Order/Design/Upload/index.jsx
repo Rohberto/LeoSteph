@@ -174,11 +174,7 @@ const UploadModal = ({ onClose, setProductDesign, orderSummary }) => {
               ? "bg-oliveGreen cursor-not-allowed"
               : "bg-sageGreen hover:bg-forestGreen"
           } text-white`}
-          onClick={uploadComplete ? () => navigate("/checkout", {
-            state: {
-             orderSummary
-            },
-          }) : handleUpload}
+          onClick={uploadComplete ? () => navigate("/cart") : handleUpload}
           disabled={uploading || files.length === 0}
         >
           {uploadComplete

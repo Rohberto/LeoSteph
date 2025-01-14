@@ -2,6 +2,7 @@ import { Routes, Route } from "react-router-dom";
 import UserRoutes from "./routes/UserRoutes";
 import AdminRoutes from "./routes/AdminRoutes";
 import Toast from "./components/Misc/Toast";
+import ScrollToTop from "./utils/scrolltoTop";
 
 function App() {
   return (

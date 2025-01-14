@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Breadcrumbs from "../../shared/breadCrumbs";
 import { initializePayment } from "../../services/payment";
@@ -7,33 +7,46 @@ import { DevTool } from "@hookform/devtools";
 import { useLocation, useNavigate } from "react-router-dom";
 import Paystack from "@paystack/inline-js";
 import { toast } from "react-toastify";
-import { DataContext } from "../../context/DataContext";
+import { states } from "../../assets/states";
+import { getUserData } from "../../services/user";
+import { transformApiResponse } from "../../utils/dataSelectors";
+
 const CheckoutPage = () => {
- const {setCartData} = useContext(DataContext);
   const popup = new Paystack();
   const navigate = useNavigate();
   const location = useLocation();
-  const [shippingMethod, setShippingMethod] = useState("deliver");
+  const [shippingMethod, setShippingMethod] = useState("home_delivery");
   const [showCompanyDetails, setShowCompanyDetails] = useState(false);
+  const [selectedState, setSelectedState] = useState("");
   const { orderSummary } = location.state;
+
   const form = useForm({
-    defaultValues: {
-      customer: {
-        firstName: "",
-        lastName: "",
-        email: "",
-        phoneNumber: "",
-      },
-      delivery: {
-        addressLine1: "",
-        addressLine2: "",
-        city: "",
-        state: "",
-      },
+    defaultValues: async () => {
+      const res = await getUserData();
+      const userData = transformApiResponse(res);
+      return {
+        customer: {
+          firstName: userData?.firstName || "",
+          lastName: userData?.lastName || "",
+          email: userData?.email || "",
+          phoneNumber: userData?.phone || "",
+        },
+        delivery: {
+          addressLine1: "",
+          addressLine2: "",
+          city: "",
+          state: "",
+        },
+      };
     },
   });
 
-  const { register, control, handleSubmit } = form;
+  const {
+    register,
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = form;
 
   const handlePaymentInitialization = async (customerData) => {
     const amountInSmallestUnit = orderSummary?.total * 100;
@@ -49,13 +62,9 @@ const CheckoutPage = () => {
         popup.resumeTransaction(response.data.access_code, {
           onSuccess: (transaction) => {
             console.log(transaction);
-            if(orderSummary.items > 1){
-              localStorage.removeItem("cartdata");
-            setCartData([]);
-            }
             navigate(`/order-success?reference=${transaction.reference}`, {
               state: {
-                orderSummary,
+                orderSummary: { ...orderSummary, customerData, shippingMethod },
               },
             });
           },
@@ -80,7 +89,7 @@ const CheckoutPage = () => {
   };
 
   const requiredChecker = () => {
-    if (shippingMethod === "deliver") {
+    if (shippingMethod === "home_delivery") {
       return true;
     } else {
       return false;
@@ -100,14 +109,19 @@ const CheckoutPage = () => {
           <h3 className="font-semibold text-lg mb-2">
             Company Pickup Location
           </h3>
-          <p>123 Company Street</p>
-          <p>Business District, City 12345</p>
-          <p>State, Country</p>
+          <p> 3 Sunday Street</p>
+          <p>off Shipeolu Street, Shomolu,</p>
+          <p>Lagos,Nigeria</p>
           <p className="mt-2">
-            <span className="font-semibold">Phone:</span> (123) 456-7890
+            <span className="font-semibold ">
+              <a href="tel:+2348089017544">Phone: 08089017544</a>
+            </span>
           </p>
           <p>
-            <span className="font-semibold">Hours:</span> Mon-Fri 9AM-5PM
+            <span>Monday - Friday :</span>
+            <span className="font-medium">8:30 AM - 8:00 PM</span> <br />
+            <span>Saturday : </span>
+            <span className="font-medium">8:30 AM - 8:30 PM</span>
           </p>
         </motion.div>
       )}
@@ -117,7 +131,7 @@ const CheckoutPage = () => {
   const AddressFields = () => (
     <div className="space-y-4">
       <form noValidate>
-        <div>
+        <div className="mb-3">
           <label className="block mb-1">Address Line 1</label>
           <input
             type="text"
@@ -129,8 +143,11 @@ const CheckoutPage = () => {
               },
             })}
           />
+          <p className="text-red-500 text-xs">
+            {errors?.delivery?.addressLine1?.message}
+          </p>
         </div>
-        <div>
+        <div className="mb-3">
           <label className="block mb-1">Address Line 2</label>
           <input
             type="text"
@@ -142,9 +159,12 @@ const CheckoutPage = () => {
               },
             })}
           />
+          <p className="text-red-500 text-xs">
+            {errors?.delivery?.addressLine2?.message}
+          </p>
         </div>
         <div className="flex flex-col sm:flex-row gap-4">
-          <div className="flex-1">
+          <div className="flex-1 mb-3">
             <label className="block mb-1">City</label>
             <input
               type="text"
@@ -156,8 +176,11 @@ const CheckoutPage = () => {
                 },
               })}
             />
+            <p className="text-red-500 text-xs">
+              {errors?.delivery?.city?.message}
+            </p>
           </div>
-          <div className="flex-1">
+          <div className="flex-1 mb-3">
             <label className="block mb-1">State</label>
             <select
               className="w-full border rounded p-2"
@@ -166,46 +189,18 @@ const CheckoutPage = () => {
                   value: requiredChecker(),
                   message: "This field is required",
                 },
+                onChange: (e) => setSelectedState(e.target.value),
               })}
             >
-              <option>Abia</option>
-              <option value="adamawa">Adamawa</option>
-  <option value="akwa-ibom">Akwa Ibom</option>
-  <option value="anambra">Anambra</option>
-  <option value="bauchi">Bauchi</option>
-  <option value="bayelsa">Bayelsa</option>
-  <option value="benue">Benue</option>
-  <option value="borno">Borno</option>
-  <option value="cross-river">Cross River</option>
-  <option value="delta">Delta</option>
-  <option value="ebonyi">Ebonyi</option>
-  <option value="edo">Edo</option>
-  <option value="ekiti">Ekiti</option>
-  <option value="enugu">Enugu</option>
-  <option value="gombe">Gombe</option>
-  <option value="imo">Imo</option>
-  <option value="jigawa">Jigawa</option>
-  <option value="kaduna">Kaduna</option>
-  <option value="kano">Kano</option>
-  <option value="katsina">Katsina</option>
-  <option value="kebbi">Kebbi</option>
-  <option value="kogi">Kogi</option>
-  <option value="kwara">Kwara</option>
-  <option value="lagos">Lagos</option>
-  <option value="nasarawa">Nasarawa</option>
-  <option value="niger">Niger</option>
-  <option value="ogun">Ogun</option>
-  <option value="ondo">Ondo</option>
-  <option value="osun">Osun</option>
-  <option value="oyo">Oyo</option>
-  <option value="plateau">Plateau</option>
-  <option value="rivers">Rivers</option>
-  <option value="sokoto">Sokoto</option>
-  <option value="taraba">Taraba</option>
-  <option value="yobe">Yobe</option>
-  <option value="zamfara">Zamfara</option>
-  <option value="fct">Federal Capital Territory (FCT)</option>
+              {states.map((state) => (
+                <option key={state.name} value={state.name}>
+                  {state.name}
+                </option>
+              ))}
             </select>
+            <p className="text-red-500 text-xs">
+              {errors?.delivery?.state?.message}
+            </p>
           </div>
         </div>
         <div>
@@ -224,7 +219,7 @@ const CheckoutPage = () => {
         <DevTool control={control} />
         <h2 className="text-xl font-semibold">Customer Information</h2>
         <div className="flex flex-col sm:flex-row gap-4">
-          <div className="flex-1">
+          <div className="flex-1 mb-3">
             <label className="block mb-1">First Name</label>
             <input
               type="text"
@@ -233,8 +228,11 @@ const CheckoutPage = () => {
                 required: "First name is required",
               })}
             />
+            <p className="text-red-500 text-xs">
+              {errors?.customer?.firstName?.message}
+            </p>
           </div>
-          <div className="flex-1">
+          <div className="flex-1 mb-3">
             <label className="block mb-1">Last Name</label>
             <input
               type="text"
@@ -243,10 +241,13 @@ const CheckoutPage = () => {
                 required: "Last name is required",
               })}
             />
+            <p className="text-red-500 text-xs">
+              {errors?.customer?.lastName?.message}
+            </p>
           </div>
         </div>
         <div className="flex flex-col sm:flex-row gap-4">
-          <div className="flex-1">
+          <div className="flex-1 mb-3">
             <label className="block mb-1">Email</label>
             <input
               type="email"
@@ -259,8 +260,11 @@ const CheckoutPage = () => {
                 },
               })}
             />
+            <p className="text-red-500 text-xs">
+              {errors?.customer?.email?.message}
+            </p>
           </div>
-          <div className="flex-1">
+          <div className="flex-1 mb-3">
             <label className="block mb-1">Phone Number</label>
             <input
               type="tel"
@@ -274,6 +278,9 @@ const CheckoutPage = () => {
                 // },
               })}
             />
+            <p className="text-red-500 text-xs">
+              {errors?.customer?.phoneNumber?.message}
+            </p>
           </div>
         </div>
         <button onClick={handleSubmit}>Submit</button>
@@ -283,12 +290,12 @@ const CheckoutPage = () => {
       <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-4">
         <button
           className={`flex items-center justify-center px-4 py-3 border rounded ${
-            shippingMethod === "deliver"
+            shippingMethod === "home_delivery"
               ? "bg-red-100 border-red-300"
               : "bg-white"
           }`}
           onClick={() => {
-            setShippingMethod("deliver");
+            setShippingMethod("home_delivery");
             setShowCompanyDetails(false);
           }}
         >
@@ -310,12 +317,12 @@ const CheckoutPage = () => {
         </button>
         <button
           className={`flex items-center justify-center px-4 py-3 border rounded ${
-            shippingMethod === "pickup"
+            shippingMethod === "self_pickup"
               ? "bg-blue-100 border-blue-300"
               : "bg-white"
           }`}
           onClick={() => {
-            setShippingMethod("pickup");
+            setShippingMethod("self_pickup");
             setShowCompanyDetails(true);
           }}
         >
@@ -336,11 +343,22 @@ const CheckoutPage = () => {
           Self Pickup
         </button>
       </div>
-      {shippingMethod === "deliver" ? <AddressFields /> : <CompanyDetails />}
+      {shippingMethod === "home_delivery" ? (
+        <AddressFields />
+      ) : (
+        <CompanyDetails />
+      )}
     </div>
   );
 
   const OrderSummary = () => {
+    const selectedStateObj = states.find(
+      (state) => state.name === selectedState
+    );
+    const shippingAmount = selectedStateObj
+      ? selectedStateObj.shippingAmount
+      : 0;
+
     return (
       <div className="bg-gray-100 p-4 rounded w-full max-w-md">
         <h2 className="text-xl font-semibold mb-2">Order Summary</h2>
@@ -355,15 +373,14 @@ const CheckoutPage = () => {
           </div>
           <div className="flex justify-between">
             <span>Shipping</span>
-            <span>₦{orderSummary?.shipping?.toLocaleString()}</span>
+            <span>₦{shippingAmount.toLocaleString()}</span>
           </div>
-          <div className="flex justify-between">
-            <span>Tax</span>
-            <span>₦{orderSummary?.tax?.toLocaleString()}</span>
-          </div>
+
           <div className="flex justify-between font-bold">
             <span>Total</span>
-            <span>₦{orderSummary?.total?.toLocaleString()}</span>
+            <span>
+              ₦{(orderSummary?.total + shippingAmount).toLocaleString()}
+            </span>
           </div>
         </div>
         <button
@@ -378,7 +395,7 @@ const CheckoutPage = () => {
 
   return (
     <>
-      <div className="max-container bg-white min-h-screen py-16 px-4 sm:px-6 lg:px-8 font-Roobert changeFontSpacing">
+      <div className="max-container bg-white min-h-screen py-16 px-4 sm:px-6 lg:px-8">
         <Breadcrumbs customPath={["cart", "checkout"]} />
         <h1 className="text-2xl font-bold mb-8">Checkout</h1>
 
