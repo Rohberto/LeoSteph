@@ -1,8 +1,8 @@
 import { logo } from "../../../../constant/images/index";
 const AdminFooter = () => {
   return (
-    <footer className="w-full bg-menu text-white py-4 font-Roobert changeFontSpacing footer-height">
-      <div className="footer-container mx-auto px-4">
+    <footer className="w-full bg-dark text-white py-4 font-Roobert changeFontSpacing footer-height">
+      <div className=" mx-auto px-4">
         {/* Top Section */}
         <div className="flex flex-wrap justify-between items-center mb-4">
           {/* Branding or Logo */}

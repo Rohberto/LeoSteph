@@ -20,7 +20,7 @@ import { calculateCartPrice } from "../../utils/priceCalculator";
 import { AuthService } from "../../services/auth";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
-import { data } from "autoprefixer";
+
 
 const CartPage = () => {
   const queryClient = useQueryClient();
@@ -40,7 +40,6 @@ const CartPage = () => {
     fn: getFetchFunction(),
     select: transformApiResponse,
   });
-console.log(carts, isLoadingCart);
   const { mutate: deleteItemFromCart } = useMutation({
     mutationFn: (id) => {
       return AuthService.isLoggedIn()

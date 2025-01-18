@@ -119,6 +119,7 @@ height: 80px;
   height: 100%;
   object-fit: cover;
 }
+
 .dashboard_aside_menu{
   position: fixed;
   left: 0;
@@ -137,7 +138,7 @@ height: 80px;
   width: calc(100% - 300px);
   height: auto;
   margin-left: 300px;
-  background-color: #B6B8BA;
+  background-color: #fff;
 }
 .main-dashboard-container{
   height: auto;
@@ -145,6 +146,7 @@ height: 80px;
 .footer-height{
   min-height: 200px;
   max-height: 250px;
+  background-color: #0B121B;
 }
 .item_hover:hover, .hover-active{
 background-color: #141D27;

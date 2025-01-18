@@ -15,7 +15,7 @@ const UserProfile = () => {
 
           {/* User Information */}
           <h2 className="text-xl font-semibold text-gray-800 text-center md:text-left">
-           {user?.name}
+           {user?.firstName}
           </h2>
           <p className="text-gray-600 text-center md:text-left">
            {user?.email}

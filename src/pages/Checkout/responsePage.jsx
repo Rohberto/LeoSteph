@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { verifyPayment } from "../../services/payment";
 import { createNewOrder } from "../../services/order";
 import { getUserData } from "../../services/user";
@@ -10,6 +10,7 @@ function OrderSuccess() {
   const location = useLocation();
   const { orderSummary } = location.state;
   const [verificationStatus, setVerificationStatus] = useState(null);
+const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUserAndVerifyPayment = async () => {
@@ -46,6 +47,8 @@ function OrderSuccess() {
             paymentStatus: data.status === "success" ? "completed" : undefined,
             orderStatus: "pending",
             shipping: orderSummary.shippingMethod,
+            firstName: response?.user?.firstName,
+            total: orderSummary.total,
             address: {
               line_1: orderSummary.customerData.delivery.addressLine1,
               line_2: orderSummary.customerData.delivery.addressLine2,
@@ -54,8 +57,16 @@ function OrderSuccess() {
             state: orderSummary.customerData.delivery.state,
             user: currentUserId,
           };
-        const response =  await createNewOrder({ data: orderData });
-        console.log(response);
+          const response2 = await fetch("https://api.leosteph.com/api/orders", {
+            method: "POST", // HTTP method
+            headers: {
+              "Content-Type": "application/json", // Specify JSON data
+              Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+            },
+            body: JSON.stringify(orderData), // Convert data to JSON string
+          });
+          const data1 = await response2.json();
+        console.log(data1);
       } else {
           setVerificationStatus("failure");
         }
@@ -66,7 +77,7 @@ function OrderSuccess() {
     };
 
     fetchUserAndVerifyPayment();
-  }, [location.search, orderSummary]);
+  }, [orderSummary]);
 
   if (verificationStatus === null) {
     return (
@@ -101,6 +112,23 @@ function OrderSuccess() {
           Thank you for your order! Your payment has been successfully
           processed.
         </p>
+        <div class="flex justify-center items-center space-x-4 py-4 bg-gray-100">
+
+  <a
+    href="/"
+    class="px-6 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition"
+  >
+    Home
+  </a>
+
+  <a
+    href="/orders"
+    class="px-6 py-3 bg-green-600 text-white rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition"
+  >
+    view Order History
+  </a>
+</div>
+
       </div>
     </div>
   );

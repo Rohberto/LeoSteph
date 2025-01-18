@@ -90,7 +90,7 @@ const Dashboard = () => {
         {stats.map((stat) => (
           <div
             key={stat.title}
-            className="bg-transdashboard rounded-lg shadow-sm p-6 flex items-center space-x-4"
+            className="bg-transparent rounded-lg shadow-sm p-6 flex items-center space-x-4"
           >
             <div className={`${stat.color} p-3 rounded-lg`}>
               <stat.icon className="h-6 w-6 text-white" />
@@ -116,7 +116,7 @@ const Dashboard = () => {
           {quickStats.map((stat) => (
             <div
               key={stat.label}
-              className="flex items-center space-x-3 p-4 bg-transdashboard rounded-lg"
+              className="flex items-center space-x-3 p-4 bg-transparent rounded-lg"
             >
               <stat.icon className={`h-8 w-8 ${stat.color}`} />
               <div>
@@ -129,7 +129,7 @@ const Dashboard = () => {
       </div>
 
       {/* Recent Activity */}
-      <div className="bg-transdashboard rounded-lg shadow-sm p-6">
+      <div className="bg-white rounded-lg shadow-sm p-6">
         <h2 className="text-lg font-semibold mb-4">Recent Activity</h2>
         <div className="space-y-4">
           {recentActivity.map((activity, index) => (

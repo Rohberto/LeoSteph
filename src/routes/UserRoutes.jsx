@@ -1,4 +1,4 @@
-import { Outlet, Route, Routes } from "react-router-dom";
+import { Outlet, Route, Routes, useLocation } from "react-router-dom";
 
 import CostCalculator from "../pages/CostCalculator";
 import ProductPage from "../pages/Product";
@@ -38,6 +38,7 @@ const Layout = () => {
 };
 
 const UserRoutes = () => {
+  const location = useLocation();
   return (
     <Routes>
       <Route element={<Layout />}>
@@ -55,8 +56,8 @@ const UserRoutes = () => {
         <Route path="/order/:orderId" element={<OrderDetails />}></Route>
         <Route path="/checkout" element={<CheckoutPage />}></Route>
         <Route path="/design" element={<Design />}></Route>
-        <Route path="/design-request" element={<DesignRequestPage />}></Route>
-        <Route path="/order-success" element={<CheckoutResponsePage />}></Route>
+        <Route path="/design-request"  element={<DesignRequestPage />}></Route>
+        <Route path="/order-success"   key={location.pathname} element={<CheckoutResponsePage />}></Route>
         <Route path="/profile" element={<UserProfile />}></Route>
         <Route path="/orders" element={<OrdersPage />}></Route>
         <Route path="/faq" element={<FAQ />}></Route>

@@ -1,5 +1,54 @@
 /* eslint-disable react/prop-types */
-const SendRequest = ({ product, orderSummary}) => {
+import {useState, useEffect} from "react";
+import UploadModal from "./Upload";
+import { addToCart, addToCartUnAuth } from "../../../services/cart";
+import { AuthService } from "../../../services/auth";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { toast } from "react-toastify";
+import { useLocation } from "react-router-dom";
+
+
+
+
+const SendRequest = () => {
+const [showUpModal, setShowUpModal] = useState(false);
+const [productDesign, setProductDesign] = useState(null);
+const [instructions, setInstructions] = useState("");
+const [hasLogo, setHasLogo] = useState(false);
+const cartId = localStorage.getItem("cartId");
+const cartApi = AuthService.isLoggedIn() ? addToCart : addToCartUnAuth;
+const queryClient = useQueryClient(); 
+const location = useLocation();
+const { orderSummary, data, product} = location.state;
+console.log(product);
+const newData = {...data, request: {
+  quantity: data.quantity, price: data.price, designFee: 5000,
+  hasLogo, instructions, specifications: ""
+}}
+
+const { mutate: addItemToCart } = useMutation({
+  mutationFn: ({ id, data, cartId }) => {
+    return cartApi(id, { action: "add", data, cartId });
+  },
+  onSuccess: (data) => {
+    data?.cart && localStorage.setItem("cartId", data.cart);
+    queryClient.invalidateQueries({ queryKey: ["carts"] });
+    toast.success("Item added succesfully");
+  },
+  onError: (error) => {
+    console.log(error);
+    toast.error("SOmething went wrong");
+  },
+});
+
+  useEffect(() => {
+    if (productDesign) {
+      newData.request.upload = productDesign[0];
+      addItemToCart({ id: product?.id, data: newData, cartId });
+    }
+    
+  }, [productDesign]);
+
 
   return (
     <div className="container mx-auto p-4">
@@ -33,6 +82,8 @@ const SendRequest = ({ product, orderSummary}) => {
             <textarea
               className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               rows="4"
+              value={instructions}
+              onChange={(e) => setInstructions(e.target.value)}
             ></textarea>
           </div>
           <div className="mb-4">
@@ -60,15 +111,8 @@ const SendRequest = ({ product, orderSummary}) => {
                     htmlFor="file-upload"
                     className="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500"
                   >
-                    <span>Upload a file</span>
-                    <input
-                      id="file-upload"
-                      name="file-upload"
-                      type="file"
-                      className="sr-only"
-                    />
-                  </label>
-                  <p className="pl-1">or drag and drop</p>
+                    <span onClick={() => setShowUpModal(true)}>Upload a file</span>
+                   </label>
                 </div>
                 <p className="text-xs text-gray-500">
                   PNG, JPG, GIF up to 10MB
@@ -79,6 +123,8 @@ const SendRequest = ({ product, orderSummary}) => {
           <div className="flex items-center mb-4">
             <input
               type="checkbox"
+              checked={hasLogo}
+              onChange={(e) => setHasLogo(e.target.checked)}
               className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
             />
             <label className="ml-2 block text-sm text-gray-900">
@@ -104,6 +150,14 @@ const SendRequest = ({ product, orderSummary}) => {
           </div>
         </div>
       </div>
+
+      {showUpModal && (
+        <UploadModal
+          onClose={() => setShowUpModal(false)}
+          setProductDesign={setProductDesign}
+          orderSummary={orderSummary}
+        />
+      )}
     </div>
   );
 };

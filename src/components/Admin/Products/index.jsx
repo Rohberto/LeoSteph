@@ -32,10 +32,11 @@ const Products = () => {
       <div
         key={tab.name}
         className={`flex cursor-pointer items-center gap-x-3 px-4 py-2 mb-2 rounded-md ${
-          tab.active ? "bg-menu text-white" : "bg-transdashboard text-black"
+          tab.active ? "bg-transparent border-2 border-[#0B121B] text-black" : "bg-[#0B121B] text-white"
         }`}
         onClick={() => handleTabs(tab)}
       >
+
         <div className="">
           <Icon icon={tab.icon} width={24} />
         </div>

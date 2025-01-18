@@ -13,10 +13,11 @@ const DesignPage = () => {
   const cartId = localStorage.getItem("cartId");
   const cartApi = AuthService.isLoggedIn() ? addToCart : addToCartUnAuth;
   const location = useLocation();
-  const { data, product } = location.state;
-
+  const { data, product, orderSummary } = location.state;
+console.log(data);
   const { mutate: addItemToCart } = useMutation({
     mutationFn: ({ id, data, cartId }) => {
+      console.log(data);
       return cartApi(id, { action: "add", data, cartId });
     },
     onSuccess: (data) => {
@@ -35,7 +36,7 @@ const DesignPage = () => {
       data.design = productDesign[0];
       addItemToCart({ id: product?.id, data, cartId });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    
   }, [productDesign]);
 
   return (
@@ -43,7 +44,7 @@ const DesignPage = () => {
       <Breadcrumbs customPath={["cart", "design options"]} />
 
       <div className="mt-3 p-4 rounded-lg">
-        <DesignOptions setProductDesign={setProductDesign} product={product} />
+        <DesignOptions setProductDesign={setProductDesign} product={product} data={data} orderSummary={orderSummary}/>
       </div>
     </div>
   );

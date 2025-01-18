@@ -1,22 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const Orders = () => {
-  const getAllOrders = async () => {
-    try{
-      const response = await fetch(`https://api.leosteph.com/api/orders`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem('authToken')}`,// Ensure token is correctly passed
-        },
-      });
-      const data = await response.json();
-      console.log(data);
-    } catch(err){
-console.log(err.message);
-    }
-  }
-  getAllOrders();
   const [orders, setOrders] = useState([
     {
       id: 1,
@@ -41,6 +25,32 @@ console.log(err.message);
   ]);
 
   const [selectedOrder, setSelectedOrder] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const getAllOrders = async () => {
+      try{
+        setLoading(true);
+        const response = await fetch(`https://api.leosteph.com/api/orders`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem('authToken')}`,// Ensure token is correctly passed
+          },
+        });
+        const data = await response.json();
+        setOrders(data.orders);
+        console.log(data);
+      } catch(err){
+  console.log(err.message);
+      } finally{
+        setLoading(false);
+      }
+    }
+    getAllOrders();
+  
+  }, []);
+  
 
   const updateOrderStatus = (id, status) => {
     setOrders((prevOrders) =>
@@ -57,7 +67,7 @@ console.log(err.message);
     <h1 className="text-2xl font-bold mb-4">Orders</h1>
   
     {/* Orders List */}
-    <div className="bg-transdashboard shadow rounded mb-6">
+    <div className="bg-transparent shadow rounded mb-6">
       {/* Table for Desktop */}
       <div className="hidden mds:block">
         <table className="table-auto w-full">
@@ -75,7 +85,7 @@ console.log(err.message);
               <tr key={order.id} className="border-b">
                 <td className="px-4 py-2">{order.id}</td>
                 <td className="px-4 py-2">{order.customer}</td>
-                <td className="px-4 py-2">{order.status}</td>
+                <td className="px-4 py-2">{order.orderStatus}</td>
                 <td className="px-4 py-2">{order.total}</td>
                 <td className="px-4 py-2 text-center">
                   <button
@@ -117,7 +127,7 @@ console.log(err.message);
               <strong>Customer:</strong> {order.customer}
             </p>
             <p className="mb-2">
-              <strong>Status:</strong> {order.status}
+              <strong>Status:</strong> {order.orderStatus}
             </p>
             <p className="mb-2">
               <strong>Total:</strong> {order.total}
@@ -159,7 +169,7 @@ console.log(err.message);
             <strong>Customer:</strong> {selectedOrder.customer}
           </p>
           <p className="mb-2">
-            <strong>Status:</strong> {selectedOrder.status}
+            <strong>Status:</strong> {selectedOrder.orderStatus}
           </p>
           <p className="mb-4">
             <strong>Total:</strong> {selectedOrder.total}

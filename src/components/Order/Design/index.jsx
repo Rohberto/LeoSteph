@@ -10,10 +10,11 @@ import wallet from "./images/wallet.png";
 import paint from "./images/paint.png";
 import upload from "./images/upload.png";
 
-const DesignOptions = ({ product, setProductDesign, orderSummary }) => {
+
+const DesignOptions = ({ product, setProductDesign, orderSummary, data }) => {
   const navigate = useNavigate();
   const [showUploadModal, setShowUploadModal] = useState(false);
-
+console.log(data);
   const OptionCard = ({
     icon: Icon,
     title,
@@ -79,7 +80,7 @@ const DesignOptions = ({ product, setProductDesign, orderSummary }) => {
           title="Custom Design"
           description="Let our designers create a unique design for you."
           buttonText="Request Design"
-          onClick={() => navigate("/design-request", { state: { product, orderSummary } })}
+          onClick={() => navigate("/design-request", { state: { product, orderSummary, data } })}
         />
       </div>
 

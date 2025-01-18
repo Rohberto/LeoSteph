@@ -23,6 +23,7 @@ const apiRequest = async (method, url, options = {}) => {
     const { data, query } = options;
     const requestUrl = query ? `${url}?${new URLSearchParams(query)}` : url;
     const response = await api[method](requestUrl, data);
+    console.log(response);
     return response.data;
   } catch (error) {
     if (error.response && error.response.status === 401) {

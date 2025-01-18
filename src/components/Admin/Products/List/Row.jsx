@@ -21,7 +21,7 @@ const Row = ({ product, idx, refetch }) => {
 
   const actions = (
     <div className="absolute z-10 right-0 sm:right-12 top-full sm:-top-6">
-      <div className="flex flex-col bg-transdashboard w-24 sm:w-[4rem] p-1 rounded-md items-start shadow-lg">
+      <div className="flex flex-col bg-transparent w-24 sm:w-[4rem] p-1 rounded-md items-start shadow-lg">
         <div
           onClick={() => gotoEdit()}
           className="active:bg-gray-500 active:text-white w-full rounded-md p-1 cursor-pointer hover:bg-gray-100"
@@ -66,7 +66,7 @@ const Row = ({ product, idx, refetch }) => {
   };
 
   return (
-    <div className="md:grid flex flex-col md:grid-cols-12 gap-2 md:items-center bg-transdashboard p-2 text-sm sm:text-base">
+    <div className="md:grid flex flex-col md:grid-cols-12 gap-2 md:items-center bg-transparent p-2 text-sm sm:text-base">
       {/* Index */}
       <div className="font-semibold text-left md:col-span-1">
         <span className="sm:hidden">No: </span>
