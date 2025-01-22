@@ -31,6 +31,7 @@ const { mutate: addItemToCart } = useMutation({
     return cartApi(id, { action: "add", data, cartId });
   },
   onSuccess: (data) => {
+    console.log(data);
     data?.cart && localStorage.setItem("cartId", data.cart);
     queryClient.invalidateQueries({ queryKey: ["carts"] });
     toast.success("Item added succesfully");

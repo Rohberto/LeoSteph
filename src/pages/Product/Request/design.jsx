@@ -1,13 +1,15 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import DesignOptions from "../../../components/Order/Design";
 import Breadcrumbs from "../../../shared/breadCrumbs";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { addToCart, addToCartUnAuth } from "../../../services/cart";
 import { AuthService } from "../../../services/auth";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
+import { DataContext } from "../../../context/DataContext";
 
 const DesignPage = () => {
+  const navigate = useNavigate();
   const queryClient = useQueryClient();
   const [productDesign, setProductDesign] = useState(null);
   const cartId = localStorage.getItem("cartId");
@@ -38,6 +40,14 @@ console.log(data);
     }
     
   }, [productDesign]);
+  const {user} = useContext(DataContext);
+
+//rrrediect if user is not signed in
+useEffect(() => {
+  if (!user) {
+    navigate('/sign-in', { replace: true });
+  }
+}, [user, navigate]);
 
   return (
     <div className="max-container bg-white min-h-screen py-16 px-4 sm:px-6 lg:px-8">

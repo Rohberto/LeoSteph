@@ -105,9 +105,9 @@ const SignIn = () => {
 
       <form
         onSubmit={handleSubmit}
-        className="relative bg-midnightBlue p-8 rounded-lg shadow-lg w-full  md:w-1/2 max-w-md font-Roobert changeFontSpacing"
+        className="relative bg-midnightBlue p-4 rounded-lg shadow-lg w-full  md:w-1/2 max-w-md font-Roobert changeFontSpacing"
       >
-        <h2 className="text-4xl font-bold mb-6 text-white text-center">
+        <h2 className="text-2xl font-bold mb-4 text-white text-center">
           {isSignUp ? "Sign Up" : "Sign In"}
         </h2>
         {error && <p className="text-red-400 mb-4">{error}</p>}
@@ -118,7 +118,7 @@ const SignIn = () => {
         )}
         {isSignUp && (
           <>
-            <div className="mb-6">
+            <div className="mb-2">
               <label
                 htmlFor="firstName"
                 className="block text-sm font-medium mb-2 text-white"
@@ -130,12 +130,12 @@ const SignIn = () => {
                 id="firstName"
                 value={firstName}
                 onChange={(e) => setName(e.target.value)}
-                className="w-full px-3 py-4 bg-transparent border border-white rounded-md text-emerald-100 placeholder-emerald-500 placeholder-opacity-70 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-opacity-50"
+                className="w-full px-3 py-2 bg-transparent border border-white rounded-md text-emerald-100 placeholder-emerald-500 placeholder-opacity-70 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-opacity-50"
                 required
               />
             </div>
 
-            <div className="mb-6">
+            <div className="mb-2">
               <label
                 htmlFor="lastName"
                 className="block text-sm font-medium mb-2 text-white"
@@ -147,11 +147,11 @@ const SignIn = () => {
                 id="lastName"
                 value={lastName}
                 onChange={(e) => setLastName(e.target.value)}
-                className="w-full px-3 py-4 bg-transparent border border-white rounded-md text-emerald-100 placeholder-emerald-500 placeholder-opacity-70 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-opacity-50"
+                className="w-full px-3 py-2 bg-transparent border border-white rounded-md text-emerald-100 placeholder-emerald-500 placeholder-opacity-70 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-opacity-50"
                 required
               />
             </div>
-            <div className="mb-4">
+            <div className="mb-2">
               <label
                 htmlFor="phone"
                 className="block text-sm font-medium mb-2 text-white"
@@ -163,13 +163,13 @@ const SignIn = () => {
                 id="phone"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
-                className="w-full px-3 py-4 bg-transparent border border-white rounded-md text-emerald-100 placeholder-emerald-500 placeholder-opacity-70 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-opacity-50"
+                className="w-full px-3 py-2 bg-transparent border border-white rounded-md text-emerald-100 placeholder-emerald-500 placeholder-opacity-70 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-opacity-50"
                 required
               />
             </div>
           </>
         )}
-        <div className="mb-4">
+        <div className="mb-2">
           <label
             htmlFor="email"
              className="block text-sm font-medium mb-2 text-white"
@@ -181,11 +181,11 @@ const SignIn = () => {
             id="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full px-3 py-4 bg-transparent border border-white rounded-md text-emerald-100 placeholder-emerald-500 placeholder-opacity-70 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-opacity-50"
+            className="w-full px-3 py-2 bg-transparent border border-white rounded-md text-emerald-100 placeholder-emerald-500 placeholder-opacity-70 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-opacity-50"
             required
           />
         </div>
-        <div className="mb-6">
+        <div className="mb-2">
           <label
             htmlFor="password"
             className="block text-sm font-medium mb-2 text-white"
@@ -197,7 +197,7 @@ const SignIn = () => {
             id="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-             className="w-full px-3 py-4 bg-transparent border border-white rounded-md text-emerald-100 placeholder-emerald-500 placeholder-opacity-70 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-opacity-50"
+             className="w-full px-3 py-2 bg-transparent border border-white rounded-md text-emerald-100 placeholder-emerald-500 placeholder-opacity-70 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-opacity-50"
             required
           />
         </div>

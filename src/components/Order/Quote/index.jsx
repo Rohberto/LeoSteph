@@ -1,14 +1,15 @@
 /* eslint-disable react/no-unescaped-entities */
-import { useState } from "react";
-
+import { useState, useContext, useEffect } from "react";
+import { DataContext } from "../../../context/DataContext";
 import Breadcrumbs from "../../../shared/breadCrumbs";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import { createNewQuote } from "../../../services/quotes";
 import { Loader2 } from "lucide-react";
-
+import { useNavigate } from "react-router-dom";
 const CustomPrintQuote = () => {
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
   const [hasDesign, setHasDesign] = useState(true);
   const [formData, setFormData] = useState({
     fullname: "",
@@ -18,6 +19,14 @@ const CustomPrintQuote = () => {
     address: "",
   });
   const [errors, setErrors] = useState({});
+  const {user} = useContext(DataContext);
+
+  //rrrediect if user is not signed in
+  useEffect(() => {
+    if (!user) {
+      navigate('/sign-in', { replace: true });
+    }
+  }, [user, navigate]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
