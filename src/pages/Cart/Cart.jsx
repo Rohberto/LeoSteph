@@ -20,7 +20,7 @@ import { calculateCartPrice } from "../../utils/priceCalculator";
 import { AuthService } from "../../services/auth";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
-
+import EmptyCart from "./EmptyState";
 
 const CartPage = () => {
   const queryClient = useQueryClient();
@@ -69,7 +69,7 @@ const CartPage = () => {
         return acc + itemPrice;
       }, 0) || 0;
 
-    const shipping = subtotal > 200000 ? 0 : 3500;
+    const shipping = 0;
     const total = subtotal + shipping;
     return { subtotal, shipping, total };
   }, [carts, itemsPrices]);
@@ -108,6 +108,7 @@ const CartPage = () => {
   return (
     <>
       {!isLoadingCart ? (
+         carts?.items?.length > 0 ? (
         <>
           <div className="max-container bg-white mx-auto min-h-screen py-28 sm:px-6 lg:px-8">
             <Breadcrumbs customPath={["shop", "cart"]} />
@@ -217,6 +218,9 @@ const CartPage = () => {
           </div>
         </>
       ) : (
+        <EmptyCart />
+      )
+    ) : (
         <Loader />
       )}
     </>

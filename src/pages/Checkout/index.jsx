@@ -44,7 +44,6 @@ const CheckoutPage = () => {
   const {
     register,
     control,
-    handleSubmit,
     formState: { errors },
   } = form;
 
@@ -152,12 +151,7 @@ const CheckoutPage = () => {
           <input
             type="text"
             className="w-full border rounded p-2"
-            {...register("delivery.addressLine2", {
-              required: {
-                value: requiredChecker(),
-                message: "This field is required",
-              },
-            })}
+            {...register("delivery.addressLine2")}
           />
           <p className="text-red-500 text-xs">
             {errors?.delivery?.addressLine2?.message}
@@ -283,7 +277,6 @@ const CheckoutPage = () => {
             </p>
           </div>
         </div>
-        <button onClick={handleSubmit}>Submit</button>
       </form>
 
       <h2 className="text-xl font-semibold mt-8">Shipping Information</h2>

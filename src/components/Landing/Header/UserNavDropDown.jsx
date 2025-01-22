@@ -2,13 +2,22 @@
 import { ChevronDown } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useContext } from "react";
+import { DataContext } from "../../../context/DataContext";
 
-const DropdownMenu = ({ items, title, isMobile = false }) => {
+const DropdownUserMenu = ({ items, title, isMobile = false }) => {
   // Set default for isMobile
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
+  const {setUser} = useContext(DataContext);
+const LogoutUser = () => {
+    localStorage.removeItem("authToken");
+    localStorage.removeItem("user");
+    localStorage.removeItem("token");
+    setUser(null);
 
+
+}
   useEffect(() => {
     // Add event listener when component mounts
     if (!isMobile) {
@@ -96,6 +105,9 @@ const DropdownMenu = ({ items, title, isMobile = false }) => {
                   </Link>
                 </li>
               ))}
+              <button onClick={() => LogoutUser()} className={`block px-4 py-2 text-gray-700 hover:bg-gray-100 ${
+                      isMobile ? "border-b" : ""
+                    }`}>Logout</button>
             </ul>
           </motion.div>
         )}
@@ -104,4 +116,4 @@ const DropdownMenu = ({ items, title, isMobile = false }) => {
   );
 };
 
-export default DropdownMenu;
+export default DropdownUserMenu;

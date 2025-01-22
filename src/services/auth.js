@@ -9,13 +9,13 @@ const saveRefreshToken = (refreshToken) =>
 
 const isLoggedIn = () => !!getToken();
 
-const registerUser = async (firstName, phone, email, password) => {
+const registerUser = async (firstName, lastName, phone, email, password) => {
   const response = await fetch(`${API_BASE_URL}auth/register`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ firstName, phone, email, password }),
+    body: JSON.stringify({ firstName, lastName, phone, email, password }),
   });
 
   if (!response.ok) {
@@ -36,16 +36,18 @@ const doLogin = async (email, password) => {
       },
       body: JSON.stringify({ email, password }),
     });
-
+console.log(response);
     if (!response.ok) {
       throw new Error("Login failed.");
     }
 
     const data = await response.json();
+    console.log(data);
     saveToken(data.token);
     saveRefreshToken(data.refreshToken);
     return data;
   } catch (error) {
+    console.log(error);
     console.error("Login failed:", error);
     throw new Error(error.message || "Login failed.");
   }

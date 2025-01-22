@@ -25,6 +25,7 @@ import FAQ from "../pages/FAQ/FAQ";
 import ReturnPolicy from "../pages/Returns/returns";
 import DesignRequest from "../pages/Product/Request/customRequest";
 import DesignPage from "../pages/Product/Request/design";
+import AccountSettings from "../components/Landing/Setting";
 
 const Layout = () => {
   return (
@@ -59,6 +60,7 @@ const UserRoutes = () => {
         <Route path="/design-request"  element={<DesignRequestPage />}></Route>
         <Route path="/order-success"   key={location.pathname} element={<CheckoutResponsePage />}></Route>
         <Route path="/profile" element={<UserProfile />}></Route>
+        <Route path="/profile/settings" element={<AccountSettings/>}></Route>
         <Route path="/orders" element={<OrdersPage />}></Route>
         <Route path="/faq" element={<FAQ />}></Route>
         <Route path="/returns" element={<ReturnPolicy />}></Route>

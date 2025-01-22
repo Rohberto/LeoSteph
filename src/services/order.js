@@ -12,7 +12,7 @@ export const getMyOrders = async (options = {}) => {
 };
 
 export const getOrderById = async (orderId, options = {}) => {
-  return await apiPatch(`${apiEndpoint}/${orderId}`, {
+  return await apiGet(`${apiEndpoint}/${orderId}`, {
     ...options,
   });
 };

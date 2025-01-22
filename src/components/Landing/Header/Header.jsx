@@ -5,6 +5,7 @@ import { DataContext } from "../../../context/DataContext";
 import { logo } from "../../../constant/images/index";
 import { navItems, accountItems, helpItems } from "../../../constant";
 import DropdownMenu from "./NavDropdown";
+import DropdownUserMenu from "./UserNavDropDown";
 import { FaUserCircle } from "react-icons/fa";
 
 import MobileMenu from "./MobileMenu";
@@ -21,7 +22,7 @@ const Header = () => {
     // Implement search logic
   };
 
-  const {cartdata, user} = useContext(DataContext);
+  const {user} = useContext(DataContext);
   return (
     <header className="w-full h-15 bg-white sticky top-0 z-50 border-b-[1px] border-b-gray-200 transition-shadow duration-300 hover:shadow-md font-Roobert changefontspacing" >
       <div className="h-full px-4 max-w-container py-3 flex justify-between items-center">
@@ -77,13 +78,15 @@ const Header = () => {
                   <div className="nav-user-image">
                   <FaUserCircle />
                   </div>
-                 <DropdownMenu
+                <div>
+                 <DropdownUserMenu
               items={accountItems}
               isOpen={isHelpOpen}
               onClick={() => setIsHelpOpen(!isHelpOpen)}
-              title={user?.firstName.split(" ")[0]}
+              title={user?.firstName}
               transition="ease-in-out duration-300"
             />
+            </div>
             </div>
           )}
          </div>
@@ -112,7 +115,7 @@ const Header = () => {
           >
             <ShoppingCart className="w-5 h-5" />
             <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center animate-bounce">
-              {cartdata.length}
+              {0}
             </span>
           </Link>
         </div>

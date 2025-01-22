@@ -1,9 +1,11 @@
 import React, {useContext} from "react";
 import { DataContext } from "../../context/DataContext";
 import { FaUserAlt } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 const UserProfile = () => {
     const {user} = useContext(DataContext);
+    const navigate = useNavigate();
   return (
     <div className="flex flex-col md:flex-row items-center md:items-start md:justify-between p-4 md:p-8 bg-gray-100 rounded-lg shadow-md font-Roobert changeFontSpacing">
       {/* Profile Section */}
@@ -15,7 +17,7 @@ const UserProfile = () => {
 
           {/* User Information */}
           <h2 className="text-xl font-semibold text-gray-800 text-center md:text-left">
-           {user?.firstName}
+           {`${user?.firstName} ${user?.lastName}`}
           </h2>
           <p className="text-gray-600 text-center md:text-left">
            {user?.email}
@@ -26,7 +28,8 @@ const UserProfile = () => {
        
 
           {/* Edit Button */}
-          <button className="mt-4 px-4 py-2 bg-red-100 text-red-600 rounded-lg hover:bg-red-200 flex items-center">
+          <button className="mt-4 px-4 py-2 bg-red-100 text-red-600 rounded-lg hover:bg-red-200 flex items-center"
+          onClick={navigate("/profile/settings")}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-5 w-5 mr-2"
@@ -41,7 +44,7 @@ const UserProfile = () => {
                 d="M15.232 5.232l3.536 3.536M9 11l-6 6v2h2l6-6m3-3l3.536-3.536a2 2 0 00-2.828-2.828l-3.536 3.536M16 21h-4a2 2 0 01-2-2v-4a2 2 0 012-2h4a2 2 0 012 2v4a2 2 0 01-2 2z"
               />
             </svg>
-            Edit
+            Edit Password
           </button>
         </div>
       </div>

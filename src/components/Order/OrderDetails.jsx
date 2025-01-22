@@ -1,6 +1,8 @@
 /* eslint-disable react/prop-types */
-
 import { useParams, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { getOrderById } from "../../services/order";
+import { ImSpinner2 } from "react-icons/im";
 
 const OrderItem = ({
   image,
@@ -35,13 +37,16 @@ const OrderItem = ({
       </p>
     </div>
     <div className="mb-4">
-      <p className="font-semibold mb-2 text-lg">Product Specifications</p>
+      <p className="font-semibold mb-2 text-lg">
+        {specifications && "Product Specifications"}
+      </p>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-        {Object.entries(specifications).map(([key, value]) => (
-          <p key={key} className="text-sm">
-            <span className="text-gray-600 font-medium">{key}:</span> {value}
-          </p>
-        ))}
+        {specifications &&
+          Object.entries(specifications).map(([key, value]) => (
+            <p key={key} className="text-sm">
+              <span className="text-gray-600 font-medium">{key}:</span> {value}
+            </p>
+          ))}
       </div>
     </div>
     <div className="mb-6">
@@ -59,12 +64,12 @@ const OrderSummary = ({ items, shippingAddress }) => (
     {items.map((item, index) => (
       <OrderItem
         key={index}
-        image={item.image}
-        title={item.name}
-        quantity={item.quantity}
-        amount={item.price * item.quantity}
-        orderDate={item.orderDate || "September 19, 2024"}
-        specifications={item.specs}
+        image={item?.design[0]}
+        title={item?.product?.name}
+        quantity={item?.quantity}
+        amount={(item?.price / item?.quantity) * item?.quantity}
+        orderDate={item?.orderDate || ""}
+        specifications={item?.specs}
         deliveryAddress={shippingAddress}
       />
     ))}
@@ -74,45 +79,29 @@ const OrderSummary = ({ items, shippingAddress }) => (
 const OrderDetails = () => {
   const { orderId } = useParams();
   const navigate = useNavigate();
+  const [order, setOrder] = useState(null);
 
-  const order = {
-    id: orderId,
-    date: "2023-05-01",
-    total: 150.99,
-    status: "Delivered",
-    items: [
-      {
-        id: 1,
-        name: "Smartphone X",
-        quantity: 1,
-        price: 99.99,
-        image: "https://example.com/smartphone-x.jpg",
-        specs: {
-          "Screen Size": "6.5 inches",
-          Storage: "128GB",
-          RAM: "6GB",
-          Camera: "48MP main + 12MP ultra-wide",
-          Battery: "4500mAh",
-        },
-      },
-      {
-        id: 2,
-        name: "Wireless Earbuds",
-        quantity: 1,
-        price: 51.0,
-        image: "https://example.com/wireless-earbuds.jpg",
-        specs: {
-          "Battery Life": "Up to 6 hours",
-          "Charging Case": "Additional 18 hours",
-          Connectivity: "Bluetooth 5.0",
-          "Water Resistance": "IPX4",
-          "Noise Cancellation": "Active",
-        },
-      },
-    ],
-    shippingAddress: "123 Main St, City, Country, 12345",
-    paymentMethod: "Credit Card",
-  };
+  useEffect(() => {
+    const fetchOrder = async () => {
+      try {
+        const response = await getOrderById(orderId);
+        setOrder(response?.order);
+      } catch (error) {
+        console.error("Failed to fetch order details:", error);
+      }
+    };
+
+    fetchOrder();
+  }, [orderId]);
+
+  if (!order) {
+    return (
+      <div className="flex items-center justify-center h-screen bg-gray-100">
+        <ImSpinner2 className="animate-spin text-oliveGreen text-4xl" />
+        <p className="ml-4 text-gray-600">Fetching order details...</p>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -120,7 +109,7 @@ const OrderDetails = () => {
         <div className="max-w-5xl mx-auto p-4 flex flex-col space-y-8">
           <button
             onClick={() => navigate(-1)}
-            className="mb-4 bg-gray-700 hover:bg-gray-800 text-white font-semibold py-2 px-6 rounded-lg shadow-md transition-all duration-300 ease-in-out self-start"
+            className="mb-4 bg-oliveGreen hover:bg-sageGreen text-white font-semibold py-2 px-6 rounded-lg shadow-md transition-all duration-300 ease-in-out self-start"
           >
             Back to Orders
           </button>
@@ -141,12 +130,12 @@ const OrderDetails = () => {
                 </div>
                 <div>
                   <span className="font-medium text-gray-600">Date</span>
-                  <p className="text-lg">{order.date}</p>
+                  <p className="text-lg">{order.createdAt.slice(0, 10)}</p>
                 </div>
                 <div>
                   <span className="font-medium text-gray-600">Total</span>
                   <p className="text-lg font-semibold">
-                    ${order.total.toFixed(2)}
+                    ₦{order.total.toFixed(2)}
                   </p>
                 </div>
               </div>
@@ -159,19 +148,23 @@ const OrderDetails = () => {
                   </span>
                   <span
                     className={`px-4 py-2 inline-flex text-sm leading-5 font-semibold rounded-full ${
-                      order.status === "Delivered"
+                      order.orderStatus === "Delivered"
                         ? "bg-green-100 text-green-800"
                         : "bg-yellow-100 text-yellow-800"
                     }`}
                   >
-                    {order.status}
+                    {order.orderStatus}
                   </span>
                 </div>
                 <div>
                   <span className="font-medium text-gray-600">
                     Shipping Address
                   </span>
-                  <p className="text-lg">{order.shippingAddress}</p>
+                  <p className="text-lg">
+                    {order.shipping !== "self_pickup"
+                      ? order.address.line_1
+                      : order.shipping}
+                  </p>
                 </div>
                 <div>
                   <span className="font-medium text-gray-600">

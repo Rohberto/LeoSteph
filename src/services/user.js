@@ -14,3 +14,6 @@ export const updateUserData = async (options = {}) => {
 export const getFavoritesProducts = async (options = {}) => {
   return await apiGet(`${apiEndpoint}/me/favorites`, { ...options });
 };
+export const updatePassword = async (options = {}) => {
+  return await apiPatch(`${apiEndpoint}/me/update_password`, { ...options });
+};

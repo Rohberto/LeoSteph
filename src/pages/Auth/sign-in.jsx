@@ -12,6 +12,7 @@ const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [firstName, setName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [phone, setPhone] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -25,9 +26,10 @@ const SignIn = () => {
     return re.test(email);
   };
   const validatePhoneNumber = (phone) => {
-    const re = /^\+?[1-9]\d{1,14}$/;
+    const re = /^(\+?[1-9]\d{1,14})|(\d{10,15})$/;
     return re.test(phone);
   };
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -47,8 +49,7 @@ const SignIn = () => {
 
     try {
       if (isSignUp) {
-       const data = await registerUser(firstName, phone, email, password);
-       console.log(data);
+       const data = await registerUser(firstName, lastName, phone, email, password);
        setSignUpSuccess(true);
         toast.success("Account created successfully!");
 
@@ -122,13 +123,30 @@ const SignIn = () => {
                 htmlFor="firstName"
                 className="block text-sm font-medium mb-2 text-white"
               >
-                Name
+                First Name
               </label>
               <input
                 type="text"
                 id="firstName"
                 value={firstName}
                 onChange={(e) => setName(e.target.value)}
+                className="w-full px-3 py-4 bg-transparent border border-white rounded-md text-emerald-100 placeholder-emerald-500 placeholder-opacity-70 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-opacity-50"
+                required
+              />
+            </div>
+
+            <div className="mb-6">
+              <label
+                htmlFor="lastName"
+                className="block text-sm font-medium mb-2 text-white"
+              >
+                Last Name
+              </label>
+              <input
+                type="text"
+                id="lastName"
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
                 className="w-full px-3 py-4 bg-transparent border border-white rounded-md text-emerald-100 placeholder-emerald-500 placeholder-opacity-70 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-opacity-50"
                 required
               />
