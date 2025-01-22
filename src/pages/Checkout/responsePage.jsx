@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, Link } from "react-router-dom";
 import { verifyPayment } from "../../services/payment";
 import { createNewOrder } from "../../services/order";
 import { getUserData } from "../../services/user";
 import { FaCheckCircle, FaTimesCircle } from "react-icons/fa";
 import { ImSpinner2 } from "react-icons/im";
+
 
 function OrderSuccess() {
   const location = useLocation();
@@ -114,19 +115,19 @@ const navigate = useNavigate();
         </p>
         <div class="flex justify-center items-center space-x-4 py-4 bg-gray-100">
 
-  <a
-    href="/"
+  <Link
+    to="/"
     class="px-6 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition"
   >
     Home
-  </a>
+  </Link>
 
-  <a
-    href="/orders"
+  <Link
+    to="/MyAccount/orders"
     class="px-6 py-3 bg-green-600 text-white rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition"
   >
     view Order History
-  </a>
+  </Link>
 </div>
 
       </div>
