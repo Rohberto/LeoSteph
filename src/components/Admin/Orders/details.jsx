@@ -1,9 +1,10 @@
 /* eslint-disable react/prop-types */
 import { useState, useEffect } from "react";
 import { MoreVertical, ChevronDown, X } from "lucide-react";
-import { getOrderById } from "../../../services/order";
+import { getOrderById } from "../../services/order";
+
 // Sample data structure
-const orders1 = [
+const orders = [
   {
     address: {
       line_1: "",
@@ -120,9 +121,8 @@ function getStatusColor(status) {
   }
 }
 
-
-
 const Checkbox = ({ checked, onChange }) => (
+
   <div className="relative">
     <input
       type="checkbox"
@@ -142,34 +142,22 @@ const Badge = ({ className, children }) => (
 );
 
 const OrderDetailsModal = ({ order, onClose }) => {
-  const [orderDetail, setOrderDetail] = useState({});
-  const [loading, setLoading] = useState(true);
-  useEffect(() => {
-      const fetchOrder = async () => {
-        try {
-          setLoading(true);
-          const response = await getOrderById(order.id);
-          setOrderDetail(response?.order);
-        } catch (error) {
-          console.error("Failed to fetch order details:", error);
-        } finally{
-          setLoading(false);
-        }
-      };
-  
-      fetchOrder();
-    }, [order.id]);
-    console.log(orderDetail);
-  return (
+    const [orderDetail, setOrderDetail] = useState(null);
+    useEffect(() => {
+        const fetchOrder = async () => {
+          try {
+            const response = await getOrderById(order.id);
+            setOrderDetail(response?.order);
+          } catch (error) {
+            console.error("Failed to fetch order details:", error);
+          }
+        };
+    
+        fetchOrder();
+      }, [order.id])
+      console.log(orderDetail);
+      retutn (
   <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
-   
-   {
-    loading && (
-      <p>Loading</p>
-    )
-   }
-   
-   {!loading && (
     <div className="bg-white rounded-lg w-full md:w-3/4 lg:w-2/3 xl:w-1/2 max-h-[90vh] overflow-y-auto shadow-lg">
       <div className="p-6">
         {/* Header */}
@@ -193,23 +181,23 @@ const OrderDetailsModal = ({ order, onClose }) => {
               </h3>
               <div className="space-y-2 text-gray-600">
                 <p>
-                  <span className="font-medium">Order ID:</span> {orderDetail?.items[0].id}
+                  <span className="font-medium">Order ID:</span> {order.id}
                 </p>
                 <p>
                   <span className="font-medium">Total Amount:</span> ₦
-                  {orderDetail?.items[0].price.toLocaleString()}
+                  {order.total.toLocaleString()}
                 </p>
                 <p>
                   <span className="font-medium">Transaction Ref:</span>{" "}
-                  {orderDetail?.transaction_reference}
+                  {order.transaction_reference}
                 </p>
                 <p>
                   <span className="font-medium">Created At:</span>{" "}
-                  {new Date(orderDetail?.createdAt).toLocaleString()}
+                  {new Date(order.createdAt).toLocaleString()}
                 </p>
                 <p>
                   <span className="font-medium">Updated At:</span>{" "}
-                  {new Date(orderDetail?.updatedAt).toLocaleString()}
+                  {new Date(order.updatedAt).toLocaleString()}
                 </p>
               </div>
             </div>
@@ -221,17 +209,17 @@ const OrderDetailsModal = ({ order, onClose }) => {
               <div className="space-y-2 text-gray-600">
                 <p>
                   <span className="font-medium">Order Status:</span>{" "}
-                  <Badge className={getStatusColor(orderDetail?.orderStatus)}>
-                    {orderDetail?.orderStatus}
+                  <Badge className={getStatusColor(order.orderStatus)}>
+                    {order.orderStatus}
                   </Badge>
                 </p>
                 <p>
                   <span className="font-medium">Payment Status:</span>{" "}
-                  {orderDetail?.paymentStatus}
+                  {order.paymentStatus}
                 </p>
                 <p>
                   <span className="font-medium">Payment Method:</span>{" "}
-                  {orderDetail?.paymentMethod.replace("_", " ")}
+                  {order.paymentMethod.replace("_", " ")}
                 </p>
               </div>
             </div>
@@ -240,7 +228,7 @@ const OrderDetailsModal = ({ order, onClose }) => {
           {/* Items */}
           <div className="bg-gray-50 p-4 rounded-lg">
             <h3 className="font-semibold text-lg text-gray-700 mb-3">Items</h3>
-            {orderDetail?.items.map((item, index) => (
+            {order.items.map((item, index) => (
               <div key={index} className="mb-6 last:mb-0">
                 <div className="flex flex-col md:flex-row gap-4">
                   {/* Product Image */}
@@ -265,15 +253,8 @@ const OrderDetailsModal = ({ order, onClose }) => {
                     <div className="mt-3">
                       <p>
                         <span className="font-medium">Quantity:</span>{" "}
-                        {item.quantity ? item.quantity : item.request.quantity}
+                        {item.quantity}
                       </p>
-                      {item.request && (
-                      <p>
-                        <span className="font-medium">Instructions:</span>{" "}
-                        {item.request.instructions}
-                      </p>
-                      )
-}
                       <p>
                         <span className="font-medium">Price:</span> ₦
                         {item.price.toLocaleString()}
@@ -295,7 +276,7 @@ const OrderDetailsModal = ({ order, onClose }) => {
                       </ul>
                     </div>
 
-                    {item.design.length > 0 && (
+                    {/* Design */}
                     <div className="mt-3">
                       <h5 className="font-medium text-gray-700">Design:</h5>
                       <img
@@ -304,25 +285,6 @@ const OrderDetailsModal = ({ order, onClose }) => {
                         className="w-full h-auto rounded-lg mt-2"
                       />
                     </div>
-                    )
-                    }
-                    {item.request && (
-                    <div className="mt-3">
-                      <h5 className="font-medium text-gray-700">Request Image:</h5>
-                      <img
-                        src={item.request.upload[0]}
-                        alt="Design"
-                        className="w-full h-auto rounded-lg mt-2"
-                      />
-                    </div>
-                    )
-                    }
-
-                    {/*Request*/}
-                      {
-
-                      }
-
                   </div>
                 </div>
               </div>
@@ -337,18 +299,18 @@ const OrderDetailsModal = ({ order, onClose }) => {
             <div className="space-y-2 text-gray-600">
               <p>
                 <span className="font-medium">Method:</span>{" "}
-                {orderDetail?.shipping.replace("_", " ")}
+                {order.shipping.replace("_", " ")}
               </p>
-              {orderDetail?.address.line_1 && (
+              {order.address.line_1 && (
                 <p>
                   <span className="font-medium">Address:</span>{" "}
-                  {orderDetail?.address.line_1}
+                  {order.address.line_1}
                 </p>
               )}
-              {orderDetail?.address.line_2 && <p>{orderDetail?.address.line_2}</p>}
-              {(orderDetail?.city || orderDetail?.state) && (
+              {order.address.line_2 && <p>{order.address.line_2}</p>}
+              {(order.city || order.state) && (
                 <p>
-                  {orderDetail?.city}, {orderDetail?.state}
+                  {order.city}, {order.state}
                 </p>
               )}
             </div>
@@ -360,15 +322,15 @@ const OrderDetailsModal = ({ order, onClose }) => {
               Customer Information
             </h3>
             <p className="text-gray-600">
-              <span className="font-medium">Customer ID:</span> {orderDetail?.user}
+              <span className="font-medium">Customer ID:</span> {order.user}
             </p>
           </div>
         </div>
       </div>
     </div>
-   )}
   </div>
-)};
+  )
+};
 
 const DropdownMenu = ({ onViewDetails }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -406,32 +368,6 @@ const DropdownMenu = ({ onViewDetails }) => {
 const Orders = () => {
   const [selectedOrders, setSelectedOrders] = useState([]);
   const [selectedOrder, setSelectedOrder] = useState(null);
-
-  const [orders, setOrders] = useState([]);
-  const [loading, setLoading] = useState(false);
-  useEffect(() => {
-    const getAllOrders = async () => {
-      try{
-        setLoading(true);
-        const response = await fetch(`https://api.leosteph.com/api/orders`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem('authToken')}`,// Ensure token is correctly passed
-          },
-        });
-        const data = await response.json();
-        setOrders(data.orders);
-        console.log(data);
-      } catch(err){
-  console.log(err.message);
-      } finally{
-        setLoading(false);
-      }
-    }
-    getAllOrders();
-  
-  }, []);
 
   const toggleOrder = (orderId) => {
     setSelectedOrders((prev) =>
